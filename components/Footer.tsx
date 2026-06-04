@@ -102,7 +102,7 @@ export default function Footer() {
                     {FOOTER_COLUMNS.map((col, colIdx) => (
                         <div key={col.heading}>
                             <h3 
-                                className={`text-[10px] sm:text-xs font-mono uppercase tracking-[0.2em] text-[#d4620a] mb-6 transition-all duration-700 ease-out ${isColVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
+                                className={`text-[10px] sm:text-xs font-mono uppercase tracking-[0.2em] text-[#d4620a] mb-6 transition-transform duration-700 ease-out ${isColVisible ? 'translate-y-0' : 'translate-y-4'}`}
                                 style={{ transitionDelay: `${colIdx * 100}ms` }}
                             >
                                 {col.heading}
@@ -111,7 +111,7 @@ export default function Footer() {
                                 {col.links.map((link, linkIdx) => (
                                     <li 
                                         key={link.label}
-                                        className={`transition-all duration-700 ease-out ${isColVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
+                                        className={`transition-transform duration-700 ease-out ${isColVisible ? 'translate-y-0' : 'translate-y-4'}`}
                                         style={{ transitionDelay: `${colIdx * 100 + (linkIdx + 1) * 75}ms` }}
                                     >
                                         <a
@@ -125,7 +125,7 @@ export default function Footer() {
                             </ul>
                             {col.cta && (
                                 <div 
-                                    className={`transition-all duration-700 ease-out ${isColVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
+                                    className={`transition-transform duration-700 ease-out ${isColVisible ? 'translate-y-0' : 'translate-y-4'}`}
                                     style={{ transitionDelay: `${colIdx * 100 + (col.links.length + 1) * 75}ms` }}
                                 >
                                     <a
@@ -148,8 +148,8 @@ export default function Footer() {
                         {/* Large brand name */}
                         <h2
                             ref={textRef}
-                            className={`text-[15vw] sm:text-[14vw] lg:text-[12vw] font-extrabold tracking-tighter leading-[0.8] text-white select-none transition-all duration-1000 ease-out ${
-                                isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-16'
+                            className={`text-[15vw] sm:text-[14vw] lg:text-[12vw] font-extrabold tracking-tighter leading-[0.8] text-white select-none transition-transform duration-1000 ease-out ${
+                                isVisible ? 'translate-y-0' : 'translate-y-16'
                             }`}
                         >
                             BACKBNCH

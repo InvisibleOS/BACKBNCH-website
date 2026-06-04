@@ -13,10 +13,12 @@ export default function NavBar() {
     const [isScrolled, setIsScrolled] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [isMounted, setIsMounted] = useState(false);
+    const [hasDropped, setHasDropped] = useState(false);
     const sentinelRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         setIsMounted(true);
+        setTimeout(() => setHasDropped(true), 700);
         const sentinel = sentinelRef.current;
         if (!sentinel) return;
 
@@ -59,11 +61,12 @@ export default function NavBar() {
                 className={[
                     'hidden lg:block',
                     'sticky top-4 z-50',
-                    'transition-all duration-700 ease-out',
-                    isScrolled
-                        ? 'mx-4 mx-64'
+                    'transition-transform duration-700 ease-in',
+                    hasDropped ? 'transition-all duration-500 ease-in' : '',
+                    (hasDropped && isScrolled)
+                        ? 'mx-64'
                         : 'mx-32',
-                    isMounted ? 'translate-y-0 opacity-100' : '-translate-y-[150%] opacity-0',
+                    isMounted ? 'translate-y-0' : '-translate-y-[150%]',
                 ].join(' ')}
             >
                 {/* Outer pill — dark glassmorphism shell */}
@@ -142,8 +145,8 @@ export default function NavBar() {
                     'lg:hidden',
                     'sticky top-4 z-50',
                     'mx-4',
-                    'transition-all duration-700 ease-out',
-                    isMounted ? 'translate-y-0 opacity-100' : '-translate-y-[150%] opacity-0',
+                    'transition-transform duration-700 ease-in',
+                    isMounted ? 'translate-y-0' : '-translate-y-[150%]',
                 ].join(' ')}
             >
                 <div
