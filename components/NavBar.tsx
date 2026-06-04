@@ -61,8 +61,7 @@ export default function NavBar() {
                 className={[
                     'hidden lg:block',
                     'sticky top-4 z-50',
-                    'transition-transform duration-700 ease-in',
-                    hasDropped ? 'transition-all duration-500 ease-in' : '',
+                    'transition-all duration-700 ease-in',
                     (hasDropped && isScrolled)
                         ? 'mx-64'
                         : 'mx-32',
