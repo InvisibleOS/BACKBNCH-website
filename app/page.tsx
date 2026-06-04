@@ -1,3 +1,6 @@
+'use client';
+
+import { useState, useEffect, useRef } from 'react';
 import NavBar from "@/components/NavBar";
 import Footer from "@/components/Footer";
 
@@ -57,6 +60,93 @@ const SECTIONS = [
     color: "from-[#d4620a]/8 to-transparent",
   },
 ];
+const FADE_DURATION = 1000; // in milliseconds
+
+function SectionCard({ section, index }: { section: typeof SECTIONS[number]; index: number }) {
+  const [isVisible, setIsVisible] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.15 }
+    );
+
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <section
+      id={section.id}
+      className={`min-h-screen flex justify-center px-6 sm:px-12 lg:px-24 ${index === 0 ? 'items-start pt-8 pb-12' : 'items-center'
+        }`}
+    >
+      <div
+        ref={ref}
+        className={`w-full bg-gradient-to-b ${section.color} rounded-3xl p-6 sm:p-16 lg:p-24 border border-white/[0.04]`}
+      >
+        {/* Label - Fade in statically (no movement) */}
+        <p
+          className={`text-xs sm:text-sm font-mono uppercase tracking-[0.2em] text-[#d4620a] mb-8 lg:mb-12 transition-opacity ease-out ${isVisible ? 'opacity-100' : 'opacity-0'
+            }`}
+          style={{
+            transitionDuration: `${FADE_DURATION}ms`,
+            transitionDelay: `${Math.round(FADE_DURATION * 0.7)}ms`,
+          }}
+        >
+          {section.label}
+        </p>
+
+        {/* Title - Fade in with displacement */}
+        <h2
+          className={`text-4xl sm:text-6xl lg:text-7xl xl:text-8xl font-bold text-white mb-2 tracking-tighter leading-[0.9] break-words transition-all ease-out ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
+            }`}
+          style={{
+            transitionDuration: `${FADE_DURATION}ms`,
+            transitionDelay: `${Math.round(FADE_DURATION * 0.2)}ms`,
+          }}
+        >
+          {section.title}
+        </h2>
+
+        {/* Highlight - Fade in with displacement */}
+        {section.highlight && (
+          <h2
+            className={`text-4xl sm:text-6xl lg:text-7xl xl:text-8xl font-bold text-[#d4620a] mb-10 lg:mb-14 tracking-tighter leading-[0.9] break-words transition-all ease-out ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
+              }`}
+            style={{
+              transitionDuration: `${FADE_DURATION}ms`,
+              transitionDelay: `${Math.round(FADE_DURATION * 0.4)}ms`,
+            }}
+          >
+            {section.highlight}
+          </h2>
+        )}
+
+        {/* Description - Fade in statically (no movement) */}
+        <p
+          className={`text-lg lg:text-xl text-white/40 leading-relaxed font-light max-w-3xl transition-opacity ease-out ${isVisible ? 'opacity-100' : 'opacity-0'
+            }`}
+          style={{
+            transitionDuration: `${FADE_DURATION}ms`,
+            transitionDelay: `${Math.round(FADE_DURATION * 0.7)}ms`,
+          }}
+        >
+          {section.description}
+        </p>
+      </div>
+    </section>
+  );
+}
 
 export default function Home() {
   return (
@@ -66,33 +156,7 @@ export default function Home() {
       {/* Content sections */}
       <main className="relative z-0">
         {SECTIONS.map((section, i) => (
-          <section
-            key={section.id}
-            id={section.id}
-            className={`min-h-screen flex justify-center px-6 sm:px-12 lg:px-24 ${i === 0
-              ? 'items-start pt-8 pb-12'
-              : 'items-center'
-              }`}
-          >
-            <div
-              className={`w-full bg-gradient-to-b ${section.color} rounded-3xl p-6 sm:p-16 lg:p-24 border border-white/[0.04]`}
-            >
-              <p className="text-xs sm:text-sm font-mono uppercase tracking-[0.2em] text-[#d4620a] mb-8 lg:mb-12">
-                {section.label}
-              </p>
-              <h2 className="text-4xl sm:text-6xl lg:text-7xl xl:text-8xl font-bold text-white mb-2 tracking-tighter leading-[0.9] break-words">
-                {section.title}
-              </h2>
-              {section.highlight && (
-                <h2 className="text-4xl sm:text-6xl lg:text-7xl xl:text-8xl font-bold text-[#d4620a] mb-10 lg:mb-14 tracking-tighter leading-[0.9] break-words">
-                  {section.highlight}
-                </h2>
-              )}
-              <p className="text-lg lg:text-xl text-white/40 leading-relaxed font-light max-w-3xl">
-                {section.description}
-              </p>
-            </div>
-          </section>
+          <SectionCard key={section.id} section={section} index={i} />
         ))}
       </main>
 
