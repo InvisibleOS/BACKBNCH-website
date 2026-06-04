@@ -71,7 +71,7 @@ export default function NavBar() {
                         'flex items-center justify-between',
                         'rounded-full p-1.5',
                         'bg-black/75 backdrop-blur-lg',
-                        'transition-all duration-500 ease-out',
+                        'transition-all duration-500 ease-in-out',
                         isScrolled
                             ? 'shadow-2xl shadow-black/50 border border-white/20'
                             : 'shadow-none border border-black',
