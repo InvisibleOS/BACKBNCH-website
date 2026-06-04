@@ -71,11 +71,10 @@ export default function NavBar() {
                         'flex items-center justify-between',
                         'rounded-full p-1.5',
                         'bg-black/75 backdrop-blur-lg',
-                        'shadow-2xl shadow-black/50',
                         'transition-all duration-500 ease-out',
                         isScrolled
-                            ? 'border border-white/20'
-                            : 'border border-black',
+                            ? 'shadow-2xl shadow-black/50 border border-white/20'
+                            : 'shadow-none border border-black',
                     ].join(' ')}
                 >
                     {/* Left — Logo */}
@@ -149,11 +148,10 @@ export default function NavBar() {
                         'flex items-center justify-between',
                         'rounded-full p-2 pr-3',
                         'bg-black/20 backdrop-blur-md',
-                        'shadow-2xl shadow-black/50',
                         'transition-all duration-500 ease-out',
                         isScrolled
-                            ? 'border border-white/20'
-                            : 'border border-black',
+                            ? 'shadow-2xl shadow-black/50 border border-white/20'
+                            : 'shadow-none border border-black',
                     ].join(' ')}
                 >
                     {/* Left — Logo */}
