@@ -71,8 +71,7 @@ export default function NavBar() {
                         'flex items-center justify-between',
                         'rounded-full p-1.5',
                         'bg-black/75 backdrop-blur-lg',
-                        'shadow-[0_15px_35px]',
-                        'shadow-black/50',
+                        'shadow-[0_15px_35px_rgba(212,98,10,0.08)]',
                         'transition-all duration-500 ease-out',
                         isScrolled
                             ? 'border border-white/20'
@@ -150,8 +149,7 @@ export default function NavBar() {
                         'flex items-center justify-between',
                         'rounded-full p-2 pr-3',
                         'bg-black/20 backdrop-blur-md',
-                        'shadow-[0_15px_35px]',
-                        'shadow-black/50',
+                        'shadow-[0_15px_35px_rgba(212,98,10,0.08)]',
                         'transition-all duration-500 ease-out',
                         isScrolled
                             ? 'border border-white/20'
