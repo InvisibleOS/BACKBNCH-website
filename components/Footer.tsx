@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 const FOOTER_COLUMNS = [
     {
@@ -60,42 +60,63 @@ const LEGAL_LINKS = [
 
 export default function Footer() {
     const [isVisible, setIsVisible] = useState(false);
+    const [isColVisible, setIsColVisible] = useState(false);
     const textRef = useRef<HTMLHeadingElement>(null);
+    const columnsRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        const observer = new IntersectionObserver(
+        const observerText = new IntersectionObserver(
             ([entry]) => {
                 if (entry.isIntersecting) {
                     setIsVisible(true);
-                    observer.disconnect();
+                    observerText.disconnect();
+                }
+            },
+            { threshold: 0.3 }
+        );
+
+        const observerCols = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) {
+                    setIsColVisible(true);
+                    observerCols.disconnect();
                 }
             },
             { threshold: 0.1 }
         );
 
-        if (textRef.current) {
-            observer.observe(textRef.current);
-        }
+        if (textRef.current) observerText.observe(textRef.current);
+        if (columnsRef.current) observerCols.observe(columnsRef.current);
 
-        return () => observer.disconnect();
+        return () => {
+            observerText.disconnect();
+            observerCols.disconnect();
+        };
     }, []);
 
     return (
         <footer className="bg-[#050505] border-t border-white/[0.06]">
             {/* Link columns */}
             <div className="max-w-[1400px] mx-auto px-6 md:px-12 pt-16 pb-12 md:pt-24 md:pb-16">
-                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-10 lg:gap-8">
-                    {FOOTER_COLUMNS.map((col) => (
+                <div ref={columnsRef} className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-10 lg:gap-8">
+                    {FOOTER_COLUMNS.map((col, colIdx) => (
                         <div key={col.heading}>
-                            <h3 className="text-[10px] sm:text-xs font-mono uppercase tracking-[0.2em] text-[#d4620a] mb-6">
+                            <h3 
+                                className={`text-[10px] sm:text-xs font-mono uppercase tracking-[0.2em] text-[#d4620a] mb-6 transition-all duration-700 ease-out ${isColVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
+                                style={{ transitionDelay: `${colIdx * 100}ms` }}
+                            >
                                 {col.heading}
                             </h3>
                             <ul className="space-y-3">
-                                {col.links.map((link) => (
-                                    <li key={link.label}>
+                                {col.links.map((link, linkIdx) => (
+                                    <li 
+                                        key={link.label}
+                                        className={`transition-all duration-700 ease-out ${isColVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
+                                        style={{ transitionDelay: `${colIdx * 100 + (linkIdx + 1) * 75}ms` }}
+                                    >
                                         <a
                                             href={link.href}
-                                            className="text-sm text-white/50 hover:text-white transition-colors font-light"
+                                            className="text-sm text-white/50 hover:text-white transition-colors font-light block"
                                         >
                                             {link.label}
                                         </a>
@@ -103,12 +124,17 @@ export default function Footer() {
                                 ))}
                             </ul>
                             {col.cta && (
-                                <a
-                                    href={col.cta.href}
-                                    className="inline-block mt-6 px-5 py-2.5 border border-white/20 text-[10px] sm:text-xs font-mono uppercase tracking-[0.2em] text-white/70 hover:text-white hover:border-white/40 transition-colors"
+                                <div 
+                                    className={`transition-all duration-700 ease-out ${isColVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
+                                    style={{ transitionDelay: `${colIdx * 100 + (col.links.length + 1) * 75}ms` }}
                                 >
-                                    {col.cta.label}
-                                </a>
+                                    <a
+                                        href={col.cta.href}
+                                        className="inline-block mt-6 px-5 py-2.5 border border-white/20 text-[10px] sm:text-xs font-mono uppercase tracking-[0.2em] text-white/70 hover:text-white hover:border-white/40 transition-colors"
+                                    >
+                                        {col.cta.label}
+                                    </a>
+                                </div>
                             )}
                         </div>
                     ))}
@@ -120,9 +146,11 @@ export default function Footer() {
                 <div className="border-t border-white/10 pt-8 md:pt-12">
                     <div className="flex flex-col lg:flex-row items-start lg:items-end justify-between gap-8">
                         {/* Large brand name */}
-                        <h2 
+                        <h2
                             ref={textRef}
-                            className={`text-[15vw] sm:text-[14vw] lg:text-[12vw] font-extrabold tracking-tighter leading-[0.8] text-white select-none transition-all duration-1000 delay-100 ease-out ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}
+                            className={`text-[15vw] sm:text-[14vw] lg:text-[12vw] font-extrabold tracking-tighter leading-[0.8] text-white select-none transition-all duration-1000 ease-out ${
+                                isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-16'
+                            }`}
                         >
                             BACKBNCH
                             <span className="text-[#d4620a]">.</span>
