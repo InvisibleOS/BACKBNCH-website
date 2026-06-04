@@ -27,6 +27,14 @@ export default function NavBar() {
         return () => observer.disconnect();
     }, []);
 
+    
+    const handleLogoClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+        if (window.location.pathname === '/') {
+            e.preventDefault();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    };
+
     // Lock body scroll when mobile menu is open
     useEffect(() => {
         if (isMobileMenuOpen) {
@@ -70,7 +78,7 @@ export default function NavBar() {
                     ].join(' ')}
                 >
                     {/* Left — Logo */}
-                    <Link href="/" className="inline-flex items-center pl-1.5 shrink-0 cursor-pointer hover:opacity-80 transition-opacity">
+                    <Link href="/" onClick={handleLogoClick} className="inline-flex items-center pl-1.5 shrink-0 cursor-pointer hover:opacity-80 transition-opacity">
                         <img
                             src="/logo.jpeg"
                             alt="BACKBNCH logo"
@@ -147,7 +155,7 @@ export default function NavBar() {
                     ].join(' ')}
                 >
                     {/* Left — Logo */}
-                    <Link href="/" className="inline-flex items-center shrink-0 cursor-pointer hover:opacity-80 transition-opacity">
+                    <Link href="/" onClick={handleLogoClick} className="inline-flex items-center shrink-0 cursor-pointer hover:opacity-80 transition-opacity">
                         <img
                             src="/logo.jpeg"
                             alt="Backbench logo"
