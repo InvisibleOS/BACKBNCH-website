@@ -1,3 +1,7 @@
+'use client';
+
+import { useEffect, useRef, useState } from 'react';
+
 const FOOTER_COLUMNS = [
     {
         heading: 'Contact',
@@ -55,6 +59,27 @@ const LEGAL_LINKS = [
 ];
 
 export default function Footer() {
+    const [isVisible, setIsVisible] = useState(false);
+    const textRef = useRef<HTMLHeadingElement>(null);
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) {
+                    setIsVisible(true);
+                    observer.disconnect();
+                }
+            },
+            { threshold: 0.1 }
+        );
+
+        if (textRef.current) {
+            observer.observe(textRef.current);
+        }
+
+        return () => observer.disconnect();
+    }, []);
+
     return (
         <footer className="bg-[#050505] border-t border-white/[0.06]">
             {/* Link columns */}
@@ -95,7 +120,10 @@ export default function Footer() {
                 <div className="border-t border-white/10 pt-8 md:pt-12">
                     <div className="flex flex-col lg:flex-row items-start lg:items-end justify-between gap-8">
                         {/* Large brand name */}
-                        <h2 className="text-[15vw] sm:text-[14vw] lg:text-[12vw] font-extrabold tracking-tighter leading-[0.8] text-white select-none">
+                        <h2 
+                            ref={textRef}
+                            className={`text-[15vw] sm:text-[14vw] lg:text-[12vw] font-extrabold tracking-tighter leading-[0.8] text-white select-none transition-all duration-1000 delay-100 ease-out ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}
+                        >
                             BACKBNCH
                             <span className="text-[#d4620a]">.</span>
                         </h2>
