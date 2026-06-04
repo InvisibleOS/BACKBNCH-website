@@ -29,7 +29,7 @@ export default function NavBar() {
         return () => observer.disconnect();
     }, []);
 
-    
+
     const handleLogoClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
         if (window.location.pathname === '/') {
             e.preventDefault();
@@ -58,7 +58,8 @@ export default function NavBar() {
             <nav
                 className={[
                     'hidden lg:block',
-                    'sticky top-4 z-50',
+                    'sticky z-50',
+                    isScrolled ? 'top-4' : 'top-10',
                     'transition-all duration-500 ease-in-out',
                     isScrolled ? 'mx-64' : 'mx-32',
                     isMounted ? 'translate-y-0' : '-translate-y-[150%]',
@@ -138,9 +139,10 @@ export default function NavBar() {
             <nav
                 className={[
                     'lg:hidden',
-                    'sticky top-4 z-50',
+                    'sticky z-50',
+                    isScrolled ? 'top-4' : 'top-8',
                     'mx-4',
-                    'transition-transform duration-700 ease-in',
+                    'transition-all duration-500 ease-in-out',
                     isMounted ? 'translate-y-0' : '-translate-y-[150%]',
                 ].join(' ')}
             >
