@@ -60,7 +60,7 @@ export default function NavBar() {
                     'hidden lg:block',
                     'sticky top-4 z-50',
                     'transition-all duration-500 ease-in-out',
-                    isScrolled ? 'mx-64' : 'mx-32',
+                    isScrolled ? 'mx-64' : 'mx-24',
                     isMounted ? 'translate-y-0' : '-translate-y-[150%]',
                 ].join(' ')}
             >
