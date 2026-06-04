@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
+import Link from 'next/link';
 
 const NAV_ITEMS = [
     { id: 'speakers', label: 'Speakers' },
@@ -69,7 +70,7 @@ export default function NavBar() {
                     ].join(' ')}
                 >
                     {/* Left — Logo */}
-                    <div className="inline-flex items-center pl-1.5 shrink-0">
+                    <Link href="/" className="inline-flex items-center pl-1.5 shrink-0 cursor-pointer hover:opacity-80 transition-opacity">
                         <img
                             src="/logo.jpeg"
                             alt="BACKBNCH logo"
@@ -78,7 +79,7 @@ export default function NavBar() {
                         <h1 className="text-2xl pl-2.5 font-sans text-[#d4630b] font-bold tracking-tight">
                             BACKBNCH
                         </h1>
-                    </div>
+                    </Link>
 
                     {/* Right group — Nav links pill + CTA */}
                     <div className="flex items-center justify-end gap-2 mr-2.5">
@@ -146,7 +147,7 @@ export default function NavBar() {
                     ].join(' ')}
                 >
                     {/* Left — Logo */}
-                    <div className="inline-flex items-center shrink-0">
+                    <Link href="/" className="inline-flex items-center shrink-0 cursor-pointer hover:opacity-80 transition-opacity">
                         <img
                             src="/logo.jpeg"
                             alt="Backbench logo"
@@ -155,7 +156,7 @@ export default function NavBar() {
                         <span className="text-xl pl-2 font-sans text-[#d4630b] font-bold tracking-tight">
                             Backbench
                         </span>
-                    </div>
+                    </Link>
 
                     {/* Right — Hamburger button */}
                     <button
