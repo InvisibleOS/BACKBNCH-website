@@ -70,7 +70,7 @@ export default function NavBar() {
                         'h-18',
                         'flex items-center justify-between',
                         'rounded-full p-1.5',
-                        'bg-black/50 backdrop-blur-lg',
+                        'bg-black/65 backdrop-blur-lg',
                         'transition-all duration-500 ease-in-out',
                         isScrolled
                             ? 'shadow-2xl shadow-black/50 border border-white/20'
@@ -147,7 +147,7 @@ export default function NavBar() {
                     className={[
                         'flex items-center justify-between',
                         'rounded-full p-2 pr-3',
-                        'bg-black/60 backdrop-blur-md',
+                        'bg-black/65 backdrop-blur-md',
                         'transition-all duration-500 ease-out',
                         isScrolled
                             ? 'shadow-2xl shadow-black/50 border border-white/20'
