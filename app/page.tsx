@@ -69,7 +69,10 @@ export default function Home() {
           <section
             key={section.id}
             id={section.id}
-            className="min-h-screen flex items-center justify-center px-6 sm:px-12 lg:px-24"
+            className={`min-h-screen flex justify-center px-6 sm:px-12 lg:px-24 ${i === 0
+              ? 'items-start pt-8 pb-12'
+              : 'items-center'
+              }`}
           >
             <div
               className={`w-full bg-gradient-to-b ${section.color} rounded-3xl p-6 sm:p-16 lg:p-24 border border-white/[0.04]`}
