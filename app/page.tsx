@@ -87,7 +87,7 @@ function SectionCard({ section, index }: { section: typeof SECTIONS[number]; ind
   return (
     <section
       id={section.id}
-      className={`min-h-screen flex justify-center px-6 sm:px-12 lg:px-24 ${index === 0 ? 'items-start pt-8 pb-12' : 'items-center'
+      className={`min-h-screen flex justify-center px-6 sm:px-12 lg:px-24 ${index === 0 ? 'items-start pt-28 lg:pt-26 pb-12' : 'items-center'
         }`}
     >
       <div

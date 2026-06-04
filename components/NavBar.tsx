@@ -58,7 +58,7 @@ export default function NavBar() {
             <nav
                 className={[
                     'hidden lg:block',
-                    'sticky top-4 z-50',
+                    'fixed top-4 inset-x-0 z-50',
                     'transition-all duration-500 ease-in-out',
                     isScrolled ? 'mx-64' : 'mx-24',
                     isMounted ? 'translate-y-0' : '-translate-y-[150%]',
@@ -70,7 +70,7 @@ export default function NavBar() {
                         'h-18',
                         'flex items-center justify-between',
                         'rounded-full p-1.5',
-                        'bg-black/75 backdrop-blur-lg',
+                        'bg-black/50 backdrop-blur-lg',
                         'transition-all duration-500 ease-in-out',
                         isScrolled
                             ? 'shadow-2xl shadow-black/50 border border-white/20'
@@ -137,7 +137,7 @@ export default function NavBar() {
             <nav
                 className={[
                     'lg:hidden',
-                    'sticky top-4 z-50',
+                    'fixed top-4 inset-x-0 z-50',
                     'mx-4',
                     'transition-transform duration-700 ease-in',
                     isMounted ? 'translate-y-0' : '-translate-y-[150%]',
@@ -147,7 +147,7 @@ export default function NavBar() {
                     className={[
                         'flex items-center justify-between',
                         'rounded-full p-2 pr-3',
-                        'bg-black/20 backdrop-blur-md',
+                        'bg-black/60 backdrop-blur-md',
                         'transition-all duration-500 ease-out',
                         isScrolled
                             ? 'shadow-2xl shadow-black/50 border border-white/20'
