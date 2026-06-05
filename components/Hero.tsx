@@ -147,17 +147,20 @@ export default function Hero() {
           className="relative z-20 h-full w-full flex items-center pt-(--nav-offset) px-6 sm:px-12 lg:px-24 lg:gap-16"
           style={HERO_VARS}
         >
-          {/* Carousel column (translated from center to left edge) */}
+          {/* Carousel column (translated from center to left edge).
+              Lower layer: paginating cards travel BEHIND the glass panel. */}
           <motion.div
-            className="w-[420px] shrink-0 flex items-center justify-center"
+            className="relative z-10 w-[420px] shrink-0 flex items-center justify-center"
             style={{ x: carouselX }}
           >
             <MusicCarousel arrowOpacity={arrowOpacity} />
           </motion.div>
 
-          {/* Right Spacer / Glass panel column (takes the remaining flex space) */}
+          {/* Right Spacer / Glass panel column (takes the remaining flex space).
+              Upper layer: sits above the carousel so cards slide under its frosted
+              glass rather than over it. */}
           <motion.div
-            className="flex-1 min-w-0 hidden lg:block shrink-0"
+            className="relative z-30 flex-1 min-w-0 hidden lg:block shrink-0"
             style={{ x: panelX }}
           >
             <GlassPanel />

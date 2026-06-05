@@ -3,165 +3,134 @@
 import { cn } from '@/lib/cn';
 import { useInView } from '@/lib/useInView';
 
-const FOOTER_COLUMNS = [
+const COLUMNS = [
     {
-        heading: 'Contact',
+        heading: 'Explore',
         links: [
-            { label: 'hello@backbench.live', href: 'mailto:hello@backbench.live' },
-        ],
-        cta: { label: 'Start Listening →', href: '#' },
-    },
-    {
-        heading: 'Navigation',
-        links: [
-            { label: 'Speakers', href: '#speakers' },
-            { label: 'Venues', href: '#venues' },
-            { label: 'About', href: '#about' },
             { label: 'Episodes', href: '#episodes' },
-            { label: 'FAQ', href: '#faq' },
-            { label: 'Contact', href: '#contact' },
+            { label: 'Guests', href: '#guests' },
+            { label: 'About', href: '#about' },
+            { label: 'Newsletter', href: '#newsletter' },
         ],
     },
     {
-        heading: 'Network',
+        heading: 'Listen',
         links: [
-            { label: 'LinkedIn', href: '#' },
-            { label: 'Twitter / X', href: '#' },
-            { label: 'Instagram', href: '#' },
             { label: 'YouTube', href: '#' },
+            { label: 'Spotify', href: '#' },
+            { label: 'Apple Podcasts', href: '#' },
         ],
     },
     {
-        heading: 'Shows',
+        heading: 'Follow',
         links: [
-            { label: 'Latest Episode', href: '#' },
-            { label: 'Most Popular', href: '#' },
-            { label: 'Guest Directory', href: '#' },
-            { label: 'Clips', href: '#' },
-        ],
-    },
-    {
-        heading: 'Topics',
-        links: [
-            { label: 'AI & Tech', href: '#' },
-            { label: 'Startups', href: '#' },
-            { label: 'Design', href: '#' },
-            { label: 'Culture', href: '#' },
-            { label: 'Open Source', href: '#' },
-            { label: 'Founder Stories', href: '#' },
+            { label: 'Instagram', href: '#' },
+            { label: 'Twitter / X', href: '#' },
+            { label: 'LinkedIn', href: '#' },
         ],
     },
 ];
 
 const LEGAL_LINKS = [
-    { label: 'Sitemap', href: '#' },
     { label: 'Terms', href: '#' },
     { label: 'Privacy', href: '#' },
 ];
 
 export default function Footer() {
-    // Reveal the brand wordmark and the link columns as each scrolls into view.
-    const [textRef, isVisible] = useInView<HTMLHeadingElement>(0.3);
-    const [columnsRef, isColVisible] = useInView<HTMLDivElement>(0.1);
+    // Reveal the CTA band and the giant wordmark as each scrolls into view.
+    const [ctaRef, ctaIn] = useInView<HTMLDivElement>(0.2);
+    const [markRef, markIn] = useInView<HTMLHeadingElement>(0.15);
 
     return (
-        <footer className="bg-[#050505] border-t border-white/[0.06]">
-            {/* Link columns */}
-            <div className="max-w-[1400px] mx-auto px-6 md:px-12 pt-16 pb-12 md:pt-24 md:pb-16">
-                <div ref={columnsRef} className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-10 lg:gap-8">
-                    {FOOTER_COLUMNS.map((col, colIdx) => (
+        <footer className="relative overflow-hidden border-t border-white/[0.06] bg-[#050505]">
+            {/* Ambient brand glow */}
+            <div className="pointer-events-none absolute -bottom-48 left-1/2 h-96 w-[85%] -translate-x-1/2 rounded-full bg-brand-orange/10 blur-[150px]" />
+
+            <div className="relative mx-auto max-w-7xl px-6 md:px-12">
+                {/* ── CTA band ── */}
+                <div
+                    ref={ctaRef}
+                    className={cn(
+                        'flex flex-col gap-10 border-b border-white/10 py-16 transition-all duration-1000 ease-out md:flex-row md:items-end md:justify-between md:py-24',
+                        ctaIn ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
+                    )}
+                >
+                    <div className="max-w-2xl">
+                        <p className="mb-4 font-mono text-xs uppercase tracking-[0.2em] text-brand-orange">Got a story worth telling?</p>
+                        <h2 className="text-4xl font-bold leading-[0.95] tracking-tighter text-white sm:text-6xl">
+                            Pull up to the <span className="text-brand-orange">backbnch.</span>
+                        </h2>
+                        <p className="mt-5 max-w-lg text-base font-light leading-relaxed text-white/40">
+                            We save the best seat in the house for unfiltered founders, operators, and characters. Pitch yourself — we&rsquo;re always listening.
+                        </p>
+                    </div>
+                    <a
+                        href="#apply"
+                        className="group inline-flex shrink-0 items-center gap-3 self-start rounded-full bg-white px-7 py-4 text-sm font-semibold uppercase tracking-widest text-black transition-colors hover:bg-brand-orange hover:text-white"
+                    >
+                        Apply to be a guest
+                        <svg className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                        </svg>
+                    </a>
+                </div>
+
+                {/* ── Link columns ── */}
+                <div className="grid grid-cols-2 gap-10 py-16 sm:grid-cols-4">
+                    {/* Brand blurb */}
+                    <div className="col-span-2 sm:col-span-1">
+                        <div className="flex items-center gap-2.5">
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img src="/logo.jpeg" alt="" className="h-9 w-9 rounded-full" />
+                            <span className="font-syne text-xl font-bold tracking-tight text-brand-orange">BACKBNCH</span>
+                        </div>
+                        <p className="mt-4 text-sm font-light leading-relaxed text-white/35">
+                            Unfiltered conversations with the people building, breaking, and running things.
+                        </p>
+                    </div>
+
+                    {COLUMNS.map((col) => (
                         <div key={col.heading}>
-                            <h3
-                                className={cn(
-                                    'text-[10px] sm:text-xs font-mono uppercase tracking-[0.2em] text-brand-orange mb-6 transition-all duration-700 ease-out',
-                                    isColVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-                                )}
-                                style={{ transitionDelay: `${colIdx * 100}ms` }}
-                            >
-                                {col.heading}
-                            </h3>
+                            <h3 className="mb-5 font-mono text-[10px] uppercase tracking-[0.2em] text-white/40">{col.heading}</h3>
                             <ul className="space-y-3">
-                                {col.links.map((link, linkIdx) => (
-                                    <li
-                                        key={link.label}
-                                        className={cn(
-                                            'transition-all duration-700 ease-out',
-                                            isColVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-                                        )}
-                                        style={{ transitionDelay: `${colIdx * 100 + (linkIdx + 1) * 75}ms` }}
-                                    >
-                                        <a
-                                            href={link.href}
-                                            className="text-sm text-white/50 hover:text-white transition-colors font-normal block"
-                                        >
+                                {col.links.map((link) => (
+                                    <li key={link.label}>
+                                        <a href={link.href} className="text-sm text-white/55 transition-colors hover:text-white">
                                             {link.label}
                                         </a>
                                     </li>
                                 ))}
                             </ul>
-                            {col.cta && (
-                                <div
-                                    className={cn(
-                                        'transition-all duration-700 ease-out',
-                                        isColVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-                                    )}
-                                    style={{ transitionDelay: `${colIdx * 100 + (col.links.length + 1) * 75}ms` }}
-                                >
-                                    <a
-                                        href={col.cta.href}
-                                        className="inline-block mt-6 px-5 py-2.5 border border-white/20 text-[10px] sm:text-xs font-mono uppercase tracking-[0.2em] text-white/70 hover:text-white hover:border-white/40 transition-colors"
-                                    >
-                                        {col.cta.label}
-                                    </a>
-                                </div>
-                            )}
                         </div>
                     ))}
                 </div>
-            </div>
 
-            {/* Bottom brand bar */}
-            <div className="mx-auto px-6 md:px-12 pb-8 md:pb-12">
-                <div className="border-t border-white/10 pt-8 md:pt-12">
-                    <div className="flex flex-col lg:flex-row items-start lg:items-end justify-between gap-8">
-                        {/* Large brand name */}
-                        <h2
-                            ref={textRef}
-                            className={cn(
-                                'text-[15vw] sm:text-[14vw] lg:text-[10vw] font-extrabold tracking-tighter leading-[0.8] text-white select-none transition-all duration-1000 ease-out',
-                                isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-16'
-                            )}
-                        >
-                            BACKBNCH
-                            <span className="text-brand-orange">.</span>
-                        </h2>
+                {/* ── Giant wordmark ── */}
+                <h2
+                    ref={markRef}
+                    className={cn(
+                        'select-none pt-8 text-center text-[16vw] font-extrabold leading-[0.8] tracking-tighter text-white transition-all duration-1000 ease-out lg:text-[13vw]',
+                        markIn ? 'translate-y-0 opacity-100' : 'translate-y-16 opacity-0'
+                    )}
+                >
+                    BACKBNCH<span className="text-brand-orange">.</span>
+                </h2>
 
-                        {/* Legal links + copyright */}
-                        <div
-                            className={cn(
-                                'flex flex-col items-start lg:items-end gap-3 pb-2 lg:pb-4 shrink-0 transition-all duration-1000 ease-out',
-                                isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-                            )}
-                        >
-                            <div className="flex items-center gap-4">
-                                {LEGAL_LINKS.map((link, i) => (
-                                    <span key={link.label} className="flex items-center gap-4">
-                                        <a
-                                            href={link.href}
-                                            className="text-[10px] font-mono uppercase tracking-[0.15em] text-white/30 hover:text-white/60 transition-colors"
-                                        >
-                                            {link.label}
-                                        </a>
-                                        {i < LEGAL_LINKS.length - 1 && (
-                                            <span className="text-white/10">·</span>
-                                        )}
-                                    </span>
-                                ))}
-                            </div>
-                            <p className="text-[10px] font-mono uppercase tracking-[0.15em] text-white/20">
-                                © {new Date().getFullYear()} Backbench. All rights reserved.
-                            </p>
-                        </div>
+                {/* ── Bottom bar ── */}
+                <div className="flex flex-col items-center justify-between gap-4 border-t border-white/10 py-8 sm:flex-row">
+                    <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-white/25">
+                        © {new Date().getFullYear()} Backbnch. All rights reserved.
+                    </p>
+                    <div className="flex items-center gap-5">
+                        {LEGAL_LINKS.map((link) => (
+                            <a
+                                key={link.label}
+                                href={link.href}
+                                className="font-mono text-[10px] uppercase tracking-[0.15em] text-white/30 transition-colors hover:text-white/60"
+                            >
+                                {link.label}
+                            </a>
+                        ))}
                     </div>
                 </div>
             </div>

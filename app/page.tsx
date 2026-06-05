@@ -2,8 +2,8 @@ import NavBar from "@/components/NavBar";
 import Footer from "@/components/Footer";
 import Hero from "@/components/Hero";
 import SpeakersSection from "@/components/sections/SpeakersSection";
-import PlaybookSection from "@/components/sections/PlaybookSection";
-import MetricsSection from "@/components/sections/MetricsSection";
+import EpisodesSection from "@/components/sections/EpisodesSection";
+import ListenSection from "@/components/sections/ListenSection";
 
 export default function Home() {
   return (
@@ -15,8 +15,8 @@ export default function Home() {
 
         {/* Relevant podcast content sections */}
         <SpeakersSection />
-        <PlaybookSection />
-        <MetricsSection />
+        <EpisodesSection />
+        <ListenSection />
       </main>
 
       <Footer />

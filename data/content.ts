@@ -7,13 +7,6 @@ export interface Speaker {
   avatar: string;
 }
 
-export interface Metric {
-  title: string;
-  desc: string;
-  metric: string;
-  change: string;
-}
-
 export const SPEAKERS: Speaker[] = [
   {
     name: "Sarah Chen",
@@ -51,18 +44,4 @@ export const SPEAKERS: Speaker[] = [
     topic: "Designing for Zero-Click Discovery",
     avatar: "/speakers/amara.jpg",
   },
-];
-
-export const METRICS: Metric[] = [
-  { title: "GEO Index score", desc: "Visibility metric across major AI models.", metric: "4.9★", change: "+140%" },
-  { title: "Engine Citations", desc: "Frequency cited in generated answers.", metric: "50K+", change: "+25%" },
-  { title: "Conversation Volume", desc: "Customer queries referencing guests.", metric: "21M", change: "+12%" },
-  { title: "Recommendation Rate", desc: "Probability AI chose customer over competitor.", metric: "92%", change: "+5%" },
-];
-
-export const PLAYBOOK: string[] = [
-  "Synthesize brand context into machine-readable knowledge graphs.",
-  "Engineering conversational data points for natural dialogue referencing.",
-  "Capturing long-form operator expertise to feed neural embeddings.",
-  "Mapping technical incompetence signals and fixing visibility gaps.",
 ];

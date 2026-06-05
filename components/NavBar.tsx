@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useLenis } from 'lenis/react';
 import { cn } from '@/lib/cn';
+import { text } from 'framer-motion/client';
 
 const NAV_ITEMS = [
     { id: 'speakers', label: 'Speakers' },
@@ -89,7 +90,12 @@ export default function NavBar() {
                             alt="BACKBNCH logo"
                             className="h-12 rounded-full w-auto"
                         />
-                        <h1 className="text-2xl pl-2.5 font-syne text-brand-orange font-bold tracking-tight">
+                        <h1 className={cn('text-2xl pl-2.5',
+                            'font-syne',
+                            'font-bold tracking-tight',
+                            'transition-colors duration-500 ease-in-out',
+                            isScrolled ? 'text-white/90' : 'text-brand-orange'
+                            )}>
                             BACKBNCH
                         </h1>
                     </Link>
@@ -136,11 +142,11 @@ export default function NavBar() {
                     <Link href="/" onClick={handleLogoClick} className="inline-flex items-center shrink-0 cursor-pointer hover:opacity-80 transition-opacity">
                         <img
                             src="/logo.jpeg"
-                            alt="Backbench logo"
+                            alt="Backbnch logo"
                             className="h-10 rounded-full w-auto"
                         />
-                        <span className="text-xl pl-2 font-sans text-brand-orange font-semibold tracking-tight">
-                            Backbench
+                        <span className="text-xl pl-2 font-sans text-white font-semibold tracking-tight">
+                            Backbnch
                         </span>
                     </Link>
 
