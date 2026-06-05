@@ -17,10 +17,12 @@ const CAROUSEL_CENTER_OFFSET = CARD_WIDTH / 2 + LG_PADDING;
 const SCROLL_RUNWAY = '400vh'; // tall wrapper that drives the sticky pinning
 
 // ── Scroll-progress keyframes (0 → 1 across the runway) ──
-const ARROW_FADE_END = 0.4; // arrows fully faded/slid away
-const CAROUSEL_SLIDE_END = 0.45; // carousel settled at the left edge
-const PANEL_SLIDE_START = 0.45; // glass panel begins entering
-const PANEL_SLIDE_END = 0.7; // glass panel fully in place
+// The carousel and the glass panel are choreographed in lockstep: both begin
+// sliding at SLIDE_START and settle into place at SLIDE_END, sharing one
+// progress factor so they start moving, travel, and stop in perfect sync.
+const SLIDE_START = 0; // both cards begin moving
+const SLIDE_END = 0.7; // both cards settle simultaneously
+const ARROW_FADE_END = 0.4; // arrows fade/slide away before the cards settle
 
 // ── Vertical geometry (single source of truth) ──
 // The cards (carousel + glass panel) are vertically framed by an equal gap `x`
@@ -80,30 +82,30 @@ export default function Hero() {
     offset: ['start start', 'end end'],
   });
 
-  // ── Animation Transforms (Arrows and Carousel move together) ──
+  // ── Animation Transforms (carousel + glass panel move in lockstep) ──
 
-  // 1. Arrow opacity (progress 0.0 → ARROW_FADE_END)
-  // Arrows fade and slide inward simultaneously as the card moves left, disappearing fully before the card settles.
-  const arrowOpacity = useTransform(scrollYProgress, [0, ARROW_FADE_END], [1, 0]);
+  // Shared 0 → 1 slide factor across [SLIDE_START, SLIDE_END]. Both cards read
+  // from this single ramp, so they start, travel, and settle in perfect sync.
+  const slideFactor = (progress: number) =>
+    clamp((progress - SLIDE_START) / (SLIDE_END - SLIDE_START), 0, 1);
 
-  // 2. Carousel horizontal displacement (progress 0.0 → CAROUSEL_SLIDE_END)
-  // Maps smoothly from (windowWidth / 2 - CAROUSEL_CENTER_OFFSET) to 0.
+  // 1. Arrow opacity — fades/slides away as the carousel leaves the center,
+  // disappearing fully (by ARROW_FADE_END) before the cards settle.
+  const arrowOpacity = useTransform(scrollYProgress, [SLIDE_START, ARROW_FADE_END], [1, 0]);
+
+  // 2. Carousel: slides from screen center to its resting left position.
   const carouselX = useTransform(scrollYProgress, (progress) => {
     if (windowWidth < DESKTOP_MIN) return 0; // remain centered on mobile via flex layout
 
     const initialX = windowWidth / 2 - CAROUSEL_CENTER_OFFSET;
-    const factor = clamp(progress / CAROUSEL_SLIDE_END, 0, 1); // linear 0 → 1
-    return initialX * (1 - factor);
+    return initialX * (1 - slideFactor(progress));
   });
 
-  // 3. Glass panel slide-in (progress PANEL_SLIDE_START → PANEL_SLIDE_END)
-  // We translate the panel by the full window width (windowWidth) initially.
-  // This guarantees the left edge of the panel starts completely outside the viewport boundary on the right,
-  // preventing it from clipping or showing a preview edge before it slides into position.
-  const panelX = useTransform(
-    scrollYProgress,
-    [0, PANEL_SLIDE_START, PANEL_SLIDE_END, 1],
-    [windowWidth, windowWidth, 0, 0]
+  // 3. Glass panel: slides in from fully off-screen right to its resting spot.
+  // Starts translated by the full window width so its left edge begins outside
+  // the viewport — it never shows a preview edge before sliding into place.
+  const panelX = useTransform(scrollYProgress, (progress) =>
+    windowWidth * (1 - slideFactor(progress))
   );
 
   return (
@@ -137,6 +139,10 @@ export default function Hero() {
         </div>
 
         {/* ── Animated content area ── */}
+        {/* items-center + pt-(--nav-offset): both cards stay vertically centered
+            in the band between the navbar's bottom and the viewport's bottom,
+            at any window height (the top padding reserves the navbar's space so
+            the centering happens below it, not behind it). */}
         <div
           className="relative z-20 h-full w-full flex items-center pt-(--nav-offset) px-6 sm:px-12 lg:px-24 lg:gap-16"
           style={HERO_VARS}

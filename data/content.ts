@@ -39,6 +39,18 @@ export const SPEAKERS: Speaker[] = [
     topic: "Trust and Authority in AI Recommendations",
     avatar: "/speakers/priya.jpg",
   },
+  {
+    name: "Marcus Lee",
+    title: "CTO @ Vantage Labs",
+    topic: "Retrieval-Augmented Brand Memory",
+    avatar: "/speakers/marcus.jpg",
+  },
+  {
+    name: "Amara Okafor",
+    title: "Founder @ Beacon AI",
+    topic: "Designing for Zero-Click Discovery",
+    avatar: "/speakers/amara.jpg",
+  },
 ];
 
 export const METRICS: Metric[] = [

@@ -1,9 +1,68 @@
 import Section from '@/components/ui/Section';
 import Eyebrow from '@/components/ui/Eyebrow';
-import { SPEAKERS } from '@/data/content';
+import { SPEAKERS, type Speaker } from '@/data/content';
 
-/** Speakers showcase — a responsive grid of operator/guest cards. */
+/** A single contact/guest card. Static — no hover resize; only the marquee
+ *  pauses on hover (handled by the parent). */
+function SpeakerCard({ speaker, ep, duplicate = false }: { speaker: Speaker; ep: number; duplicate?: boolean }) {
+  return (
+    <div
+      aria-hidden={duplicate || undefined}
+      className="relative mr-6 flex w-[300px] shrink-0 flex-col items-center overflow-hidden rounded-3xl border border-white/[0.06] bg-gradient-to-b from-white/[0.03] to-transparent p-8 text-center"
+    >
+      {/* Subtle brand glow behind the avatar */}
+      <div className="pointer-events-none absolute inset-x-0 -top-20 mx-auto h-40 w-40 rounded-full bg-brand-orange/15 blur-3xl" />
+
+      {/* Episode marker */}
+      <div className="relative z-10 mb-6 flex w-full items-center justify-between">
+        <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-white/30">
+          EP / {String(ep).padStart(2, '0')}
+        </span>
+        <span className="h-1.5 w-1.5 rounded-full bg-brand-orange/60" />
+      </div>
+
+      {/* Avatar: gradient ring + inner glow */}
+      <div className="relative z-10 mb-7 rounded-full bg-gradient-to-b from-brand-orange/50 to-white/[0.06] p-px">
+        <div className="relative flex aspect-square w-28 items-center justify-center overflow-hidden rounded-full bg-[radial-gradient(circle_at_50%_30%,#16243d,#070b12)]">
+          <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-brand-orange/20 to-transparent opacity-80" />
+          {/* Placeholder for avatars */}
+          <svg className="relative h-1/2 w-1/2 text-brand-orange/50" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"></path>
+          </svg>
+        </div>
+      </div>
+
+      <h4 className="relative z-10 text-xl font-bold text-white tracking-tight leading-snug mb-2">{speaker.name}</h4>
+      <p className="relative z-10 text-[11px] font-mono text-brand-orange/70 uppercase tracking-widest leading-relaxed">{speaker.title}</p>
+      <p className="relative z-10 mt-5 flex-1 text-sm text-white/40 font-light leading-relaxed">{speaker.topic}</p>
+
+      {/* Actions: Read More button above the Watch Episode link */}
+      <div className="relative z-10 mt-7 flex w-full flex-col items-center gap-4 border-t border-white/[0.06] pt-5">
+        <a
+          href="#read"
+          className="block w-full rounded-full border border-white/15 py-2.5 text-center text-xs font-semibold uppercase tracking-widest text-white/80 transition-colors duration-300 hover:border-brand-orange hover:bg-brand-orange hover:text-white"
+        >
+          Read More
+        </a>
+        <a href="#listen" className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-brand-orange transition-colors hover:text-white">
+          Watch Episode
+          <svg className="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+          </svg>
+        </a>
+      </div>
+    </div>
+  );
+}
+
+/** Contacts showcase — an infinite slow leftward marquee that pauses on hover. */
 export default function SpeakersSection() {
+  // Build two identical halves so the marquee's -50% translate loops seamlessly.
+  // Each half repeats the contacts enough to stay wider than the viewport (even
+  // ultrawide) before it wraps. EP numbers track each contact's real position.
+  const half = [...SPEAKERS, ...SPEAKERS];
+  const loop = [...half, ...half];
+
   return (
     <Section className="flex flex-col items-center border-t border-white/[0.02]">
       <div className="w-full max-w-7xl mb-16 text-center">
@@ -16,32 +75,19 @@ export default function SpeakersSection() {
         </p>
       </div>
 
-      {/* Card showcase grid */}
-      <div className="w-full max-w-7xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        {SPEAKERS.map((speaker) => (
-          <div key={speaker.name} className="group flex flex-col rounded-3xl bg-gradient-to-b from-brand-orange/6 to-transparent border border-white/[0.04] p-8 transition-transform hover:scale-[1.02]">
-            <div className="aspect-square rounded-full border border-brand-orange/10 bg-[#090d16] mb-8 overflow-hidden flex items-center justify-center">
-              {/* Placeholder for avatars */}
-              <svg className="w-1/2 h-1/2 text-brand-orange/20" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"></path>
-              </svg>
-            </div>
-            <h4 className="text-xl font-bold text-white tracking-tight leading-snug mb-1">{speaker.name}</h4>
-            <p className="text-xs font-mono text-white/50 uppercase tracking-widest mb-6 leading-relaxed">{speaker.title}</p>
-            <p className="text-sm text-white/40 font-light leading-relaxed mb-8 flex-1">{speaker.topic}</p>
-
-            {/* Action Link */}
-            <a href="#listen" className="mt-auto group text-xs font-semibold uppercase tracking-widest text-brand-orange flex items-center gap-2 transition hover:text-white"
-               style={{ '--hover-shadow': '0 0 0.5px currentColor, 0 0 0.5px currentColor' } as React.CSSProperties}>
-              <span className="transition-all duration-300 group-hover:[text-shadow:var(--hover-shadow)]">
-                Watch Episode
-              </span>
-              <svg className="w-3 h-3 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
-              </svg>
-            </a>
-          </div>
-        ))}
+      {/* Looping marquee — scrolls left forever, pauses while hovered
+          (see .marquee-* in globals.css). */}
+      <div className="marquee-mask relative w-full overflow-hidden py-4">
+        <div className="marquee-track flex w-max">
+          {loop.map((speaker, i) => (
+            <SpeakerCard
+              key={i}
+              speaker={speaker}
+              ep={(i % SPEAKERS.length) + 1}
+              duplicate={i >= SPEAKERS.length}
+            />
+          ))}
+        </div>
       </div>
     </Section>
   );

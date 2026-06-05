@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Syne } from "next/font/google";
 import "./globals.css";
 import SmoothScroll from "@/components/SmoothScroll";
+import Preloader from "@/components/Preloader";
 
 const inter = Inter({
   variable: "--font-inter-google",
@@ -27,6 +28,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} ${syne.variable} antialiased`}>
       <body className="min-h-screen font-sans">
+        <Preloader />
         <SmoothScroll>
           {children}
         </SmoothScroll>
