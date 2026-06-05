@@ -56,7 +56,7 @@ export default function MusicCarousel({ arrowOpacity: arrowOpacityProp }: MusicC
   return (
     <div className="relative flex items-center justify-center w-full max-w-5xl mx-auto px-4 z-20">
       {/* Main sliding viewport container containing the arrows and cards */}
-      <div className="relative w-full max-w-[420px] h-[680px] overflow-visible flex items-center justify-center">
+      <div className="relative w-full max-w-[420px] h-(--hero-card-h,680px) overflow-visible flex items-center justify-center">
         {/* Left Navigation Arrow (closer to card) */}
         <motion.button
           onClick={() => paginate(-1)}

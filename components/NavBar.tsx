@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useLenis } from 'lenis/react';
+import { cn } from '@/lib/cn';
 
 const NAV_ITEMS = [
     { id: 'speakers', label: 'Speakers' },
@@ -61,17 +62,17 @@ export default function NavBar() {
         <>
             {/* ========== DESKTOP NAV (md+) ========== */}
             <nav
-                className={[
+                className={cn(
                     'hidden lg:block',
                     'fixed top-4 inset-x-0 z-50',
                     'transition-all duration-500 ease-in-out',
                     isScrolled ? 'mx-32' : 'mx-8',
                     isMounted ? 'translate-y-0' : '-translate-y-[150%]',
-                ].join(' ')}
+                )}
             >
                 {/* Outer pill — dark glassmorphism shell */}
                 <div
-                    className={[
+                    className={cn(
                         'h-18',
                         'flex items-center justify-between',
                         'rounded-full p-1',
@@ -79,7 +80,7 @@ export default function NavBar() {
                         isScrolled
                             ? 'shadow-2xl shadow-black/50 border border-white/20 backdrop-blur-lg'
                             : 'shadow-none border-black/0 bg-black/0 backdrop-blur-none',
-                    ].join(' ')}
+                    )}
                 >
                     {/* Left — Logo */}
                     <Link href="/" onClick={handleLogoClick} className="inline-flex items-center pl-1.5 shrink-0 cursor-pointer hover:opacity-80 transition-opacity">
@@ -96,23 +97,11 @@ export default function NavBar() {
                     {/* Right group — Nav links pill + CTA */}
                     <div className="flex items-center justify-end">
                         {/* Nav links pill */}
-                        <div
-                            className={[
-                                'flex items-center',
-                                'rounded-full p-2',
-                            ].join(' ')}
-                        >
+                        <div className="flex items-center rounded-full p-2">
                             {NAV_ITEMS.map((item) => (
                                 <button
                                     key={item.id}
-                                    className={[
-                                        'px-5 py-4 rounded-full',
-                                        'bg-white/0 hover:bg-white/10',
-                                        'text-sm font-medium uppercase tracking-wide',
-                                        'text-white/75 hover:text-white',
-                                        'transition-colors duration-200',
-                                        'cursor-pointer',
-                                    ].join(' ')}
+                                    className="px-5 py-4 rounded-full bg-white/0 hover:bg-white/10 text-sm font-medium uppercase tracking-wide text-white/75 hover:text-white transition-colors duration-200 cursor-pointer"
                                 >
                                     {item.label}
                                 </button>
@@ -124,16 +113,16 @@ export default function NavBar() {
 
             {/* ========== MOBILE NAV (<md) ========== */}
             <nav
-                className={[
+                className={cn(
                     'lg:hidden',
                     'fixed top-4 inset-x-0 z-50',
                     'mx-4',
                     'transition-transform duration-700 ease-in',
                     isMounted ? 'translate-y-0' : '-translate-y-[150%]',
-                ].join(' ')}
+                )}
             >
                 <div
-                    className={[
+                    className={cn(
                         'flex items-center justify-between',
                         'rounded-full p-2 pr-3',
                         'bg-black/65 backdrop-blur-md',
@@ -141,7 +130,7 @@ export default function NavBar() {
                         isScrolled
                             ? 'shadow-2xl shadow-black/50 border border-white/20'
                             : 'shadow-none border border-black',
-                    ].join(' ')}
+                    )}
                 >
                     {/* Left — Logo */}
                     <Link href="/" onClick={handleLogoClick} className="inline-flex items-center shrink-0 cursor-pointer hover:opacity-80 transition-opacity">
@@ -192,14 +181,14 @@ export default function NavBar() {
 
             {/* ========== FULL-PAGE MOBILE MENU OVERLAY ========== */}
             <div
-                className={[
+                className={cn(
                     'lg:hidden fixed inset-0 z-40',
                     'bg-[#050505]/95 backdrop-blur-xl',
                     'transition-all duration-400 ease-out',
                     isMobileMenuOpen
                         ? 'opacity-100 pointer-events-auto'
                         : 'opacity-0 pointer-events-none',
-                ].join(' ')}
+                )}
             >
                 <div className="flex flex-col justify-between h-full pt-28 pb-12 px-8">
                     {/* Nav links — left-aligned list */}
@@ -208,7 +197,7 @@ export default function NavBar() {
                             <button
                                 key={item.id}
                                 onClick={() => setIsMobileMenuOpen(false)}
-                                className={[
+                                className={cn(
                                     'text-left py-4',
                                     'border-b border-white/[0.06]',
                                     'transition-all duration-300 ease-out',
@@ -216,7 +205,7 @@ export default function NavBar() {
                                     isMobileMenuOpen
                                         ? 'opacity-100 translate-y-0'
                                         : 'opacity-0 translate-y-4',
-                                ].join(' ')}
+                                )}
                                 style={{
                                     transitionDelay: isMobileMenuOpen ? `${(i + 1) * 80}ms` : '0ms',
                                 }}
@@ -231,7 +220,7 @@ export default function NavBar() {
                     {/* CTA button — full width */}
                     <button
                         onClick={() => setIsMobileMenuOpen(false)}
-                        className={[
+                        className={cn(
                             'w-full py-4 rounded-full',
                             'bg-white/90 hover:bg-white',
                             'text-slate-900 text-base font-medium tracking-wider',
@@ -240,7 +229,7 @@ export default function NavBar() {
                             isMobileMenuOpen
                                 ? 'opacity-100 translate-y-0'
                                 : 'opacity-0 translate-y-4',
-                        ].join(' ')}
+                        )}
                         style={{
                             transitionDelay: isMobileMenuOpen ? `${(NAV_ITEMS.length + 1) * 80}ms` : '0ms',
                         }}

@@ -1,7 +1,7 @@
 'use client';
 
 import { ReactNode } from 'react';
-import { ArrowRight, Radio, Sparkles } from 'lucide-react';
+import { ArrowRight, Sparkles } from 'lucide-react';
 
 interface GlassPanelProps {
   children?: ReactNode;
@@ -9,7 +9,7 @@ interface GlassPanelProps {
 
 export default function GlassPanel({ children }: GlassPanelProps) {
   return (
-    <div className="w-full h-[680px] rounded-[48px] bg-black/50 backdrop-blur-3xl border border-white/10 shadow-2xl flex flex-col justify-between p-10 lg:p-12 select-none overflow-hidden text-white text-left">
+    <div className="w-full h-(--hero-card-h,680px) rounded-[48px] bg-black/50 backdrop-blur-3xl border border-white/10 shadow-2xl flex flex-col justify-between p-10 lg:p-12 select-none overflow-hidden text-white text-left">
       {children || (
         <>
           {/* Top Row: Badge & Accent */}

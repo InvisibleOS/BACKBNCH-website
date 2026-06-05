@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { cn } from '@/lib/cn';
+import { useInView } from '@/lib/useInView';
 
 const FOOTER_COLUMNS = [
     {
@@ -59,40 +60,9 @@ const LEGAL_LINKS = [
 ];
 
 export default function Footer() {
-    const [isVisible, setIsVisible] = useState(false);
-    const [isColVisible, setIsColVisible] = useState(false);
-    const textRef = useRef<HTMLHeadingElement>(null);
-    const columnsRef = useRef<HTMLDivElement>(null);
-
-    useEffect(() => {
-        const observerText = new IntersectionObserver(
-            ([entry]) => {
-                if (entry.isIntersecting) {
-                    setIsVisible(true);
-                    observerText.disconnect();
-                }
-            },
-            { threshold: 0.3 }
-        );
-
-        const observerCols = new IntersectionObserver(
-            ([entry]) => {
-                if (entry.isIntersecting) {
-                    setIsColVisible(true);
-                    observerCols.disconnect();
-                }
-            },
-            { threshold: 0.1 }
-        );
-
-        if (textRef.current) observerText.observe(textRef.current);
-        if (columnsRef.current) observerCols.observe(columnsRef.current);
-
-        return () => {
-            observerText.disconnect();
-            observerCols.disconnect();
-        };
-    }, []);
+    // Reveal the brand wordmark and the link columns as each scrolls into view.
+    const [textRef, isVisible] = useInView<HTMLHeadingElement>(0.3);
+    const [columnsRef, isColVisible] = useInView<HTMLDivElement>(0.1);
 
     return (
         <footer className="bg-[#050505] border-t border-white/[0.06]">
@@ -101,17 +71,23 @@ export default function Footer() {
                 <div ref={columnsRef} className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-10 lg:gap-8">
                     {FOOTER_COLUMNS.map((col, colIdx) => (
                         <div key={col.heading}>
-                            <h3 
-                                className={`text-[10px] sm:text-xs font-mono uppercase tracking-[0.2em] text-brand-orange mb-6 transition-all duration-700 ease-out ${isColVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
+                            <h3
+                                className={cn(
+                                    'text-[10px] sm:text-xs font-mono uppercase tracking-[0.2em] text-brand-orange mb-6 transition-all duration-700 ease-out',
+                                    isColVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+                                )}
                                 style={{ transitionDelay: `${colIdx * 100}ms` }}
                             >
                                 {col.heading}
                             </h3>
                             <ul className="space-y-3">
                                 {col.links.map((link, linkIdx) => (
-                                    <li 
+                                    <li
                                         key={link.label}
-                                        className={`transition-all duration-700 ease-out ${isColVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
+                                        className={cn(
+                                            'transition-all duration-700 ease-out',
+                                            isColVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+                                        )}
                                         style={{ transitionDelay: `${colIdx * 100 + (linkIdx + 1) * 75}ms` }}
                                     >
                                         <a
@@ -124,8 +100,11 @@ export default function Footer() {
                                 ))}
                             </ul>
                             {col.cta && (
-                                <div 
-                                    className={`transition-all duration-700 ease-out ${isColVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
+                                <div
+                                    className={cn(
+                                        'transition-all duration-700 ease-out',
+                                        isColVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+                                    )}
                                     style={{ transitionDelay: `${colIdx * 100 + (col.links.length + 1) * 75}ms` }}
                                 >
                                     <a
@@ -148,19 +127,21 @@ export default function Footer() {
                         {/* Large brand name */}
                         <h2
                             ref={textRef}
-                            className={`text-[15vw] sm:text-[14vw] lg:text-[10vw] font-extrabold tracking-tighter leading-[0.8] text-white select-none transition-all duration-1000 ease-out ${
+                            className={cn(
+                                'text-[15vw] sm:text-[14vw] lg:text-[10vw] font-extrabold tracking-tighter leading-[0.8] text-white select-none transition-all duration-1000 ease-out',
                                 isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-16'
-                            }`}
+                            )}
                         >
                             BACKBNCH
                             <span className="text-brand-orange">.</span>
                         </h2>
 
                         {/* Legal links + copyright */}
-                        <div 
-                            className={`flex flex-col items-start lg:items-end gap-3 pb-2 lg:pb-4 shrink-0 transition-all duration-1000 ease-out ${
+                        <div
+                            className={cn(
+                                'flex flex-col items-start lg:items-end gap-3 pb-2 lg:pb-4 shrink-0 transition-all duration-1000 ease-out',
                                 isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-                            }`}
+                            )}
                         >
                             <div className="flex items-center gap-4">
                                 {LEGAL_LINKS.map((link, i) => (

@@ -43,8 +43,12 @@ export default function MusicCard({ title, subtitle, volume, circleColors, onNex
 
   const percentage = (progress / 135) * 100;
 
+  // Artwork colors, with sensible orange fallbacks for SSR / missing data.
+  const sideColor = circleColors[0] || '#d4620a';
+  const centerColor = circleColors[1] || '#ff7b24';
+
   return (
-    <div className="relative w-full max-w-[420px] h-[680px] p-6 rounded-[48px] bg-black/50 backdrop-blur-md text-white shadow-2xl border border-white/10 flex flex-col justify-between mx-auto select-none">
+    <div className="relative w-full max-w-[420px] h-(--hero-card-h,680px) p-6 rounded-[48px] bg-black/50 backdrop-blur-md text-white shadow-2xl border border-white/10 flex flex-col justify-between mx-auto select-none">
       {/* Vector Circles Artwork Container */}
       <div className="relative aspect-square w-full rounded-[32px] bg-[#090d16] overflow-hidden flex items-center justify-center mb-2">
         <div className="absolute inset-0 bg-gradient-to-tr from-black via-[#060c18] to-[#121c32]" />
@@ -52,24 +56,21 @@ export default function MusicCard({ title, subtitle, volume, circleColors, onNex
         {/* Visualizer waves overlay (glowing behind shapes) */}
         <div className="absolute bottom-0 inset-x-0 h-24 bg-gradient-to-t from-brand-orange/10 to-transparent pointer-events-none" />
 
-        {/* Left orange circle */}
-        <div
-          className="absolute w-40 h-40 rounded-full opacity-75 -translate-x-[40%]"
-          style={{ backgroundColor: circleColors[0] || '#d4620a' }}
-        />
-
-        {/* Right orange circle */}
-        <div
-          className="absolute w-40 h-40 rounded-full opacity-75 translate-x-[40%]"
-          style={{ backgroundColor: circleColors[0] || '#d4620a' }}
-        />
+        {/* Left + right orange circles (mirrored offsets) */}
+        {['-translate-x-[40%]', 'translate-x-[40%]'].map((shift) => (
+          <div
+            key={shift}
+            className={`absolute w-40 h-40 rounded-full opacity-75 ${shift}`}
+            style={{ backgroundColor: sideColor }}
+          />
+        ))}
 
         {/* Center bright orange circle */}
         <div
           className="absolute w-44 h-44 rounded-full z-10 flex items-center justify-center"
           style={{
-            backgroundColor: circleColors[1] || '#ff7b24',
-            boxShadow: `0 0 50px ${circleColors[1]}66`
+            backgroundColor: centerColor,
+            boxShadow: `0 0 50px ${centerColor}66`
           }}
         >
           {/* Pulsing indicator when playing */}
@@ -95,7 +96,7 @@ export default function MusicCard({ title, subtitle, volume, circleColors, onNex
       </div>
 
       {/* Play Progress Slider */}
-      <div className="w-full px-1">
+      <div className="w-full px-1 mt-4">
         <div className="h-[3px] w-full bg-white/20 rounded-full overflow-hidden relative">
           <div
             className="h-full bg-white rounded-full transition-all duration-300 ease-linear"
