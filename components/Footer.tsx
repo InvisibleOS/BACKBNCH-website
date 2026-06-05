@@ -102,7 +102,7 @@ export default function Footer() {
                     {FOOTER_COLUMNS.map((col, colIdx) => (
                         <div key={col.heading}>
                             <h3 
-                                className={`text-[10px] sm:text-xs font-mono uppercase tracking-[0.2em] text-[#d4620a] mb-6 transition-all duration-700 ease-out ${isColVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
+                                className={`text-[10px] sm:text-xs font-mono uppercase tracking-[0.2em] text-brand-orange mb-6 transition-all duration-700 ease-out ${isColVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
                                 style={{ transitionDelay: `${colIdx * 100}ms` }}
                             >
                                 {col.heading}
@@ -116,7 +116,7 @@ export default function Footer() {
                                     >
                                         <a
                                             href={link.href}
-                                            className="text-sm text-white/50 hover:text-white transition-colors font-light block"
+                                            className="text-sm text-white/50 hover:text-white transition-colors font-normal block"
                                         >
                                             {link.label}
                                         </a>
@@ -148,12 +148,12 @@ export default function Footer() {
                         {/* Large brand name */}
                         <h2
                             ref={textRef}
-                            className={`text-[15vw] sm:text-[14vw] lg:text-[12vw] font-extrabold tracking-tighter leading-[0.8] text-white select-none transition-all duration-1000 ease-out ${
+                            className={`text-[15vw] sm:text-[14vw] lg:text-[10vw] font-extrabold tracking-tighter leading-[0.8] text-white select-none transition-all duration-1000 ease-out ${
                                 isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-16'
                             }`}
                         >
                             BACKBNCH
-                            <span className="text-[#d4620a]">.</span>
+                            <span className="text-brand-orange">.</span>
                         </h2>
 
                         {/* Legal links + copyright */}

@@ -1,7 +1,8 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { useLenis } from 'lenis/react';
 
 const NAV_ITEMS = [
     { id: 'speakers', label: 'Speakers' },
@@ -13,27 +14,31 @@ export default function NavBar() {
     const [isScrolled, setIsScrolled] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [isMounted, setIsMounted] = useState(false);
-    const sentinelRef = useRef<HTMLDivElement>(null);
+    const lenis = useLenis();
 
     useEffect(() => {
-        setIsMounted(true);
-        const sentinel = sentinelRef.current;
-        if (!sentinel) return;
-
-        const observer = new IntersectionObserver(
-            ([entry]) => setIsScrolled(!entry.isIntersecting),
-            { rootMargin: '0px 0px 0px 0px', threshold: 0 }
-        );
-
-        observer.observe(sentinel);
-        return () => observer.disconnect();
+        const frame = requestAnimationFrame(() => {
+            setIsMounted(true);
+        });
+        return () => cancelAnimationFrame(frame);
     }, []);
+
+    useLenis((lenisInstance) => {
+        if (typeof window === 'undefined') return;
+        const scroll = lenisInstance.scroll;
+        const threshold = window.innerWidth >= 1024 ? window.innerHeight * 3 : 10;
+        setIsScrolled(scroll > threshold);
+    });
 
 
     const handleLogoClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
         if (window.location.pathname === '/') {
             e.preventDefault();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            if (lenis) {
+                lenis.scrollTo(0);
+            } else {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
         }
     };
 
@@ -41,26 +46,26 @@ export default function NavBar() {
     useEffect(() => {
         if (isMobileMenuOpen) {
             document.body.style.overflow = 'hidden';
+            lenis?.stop();
         } else {
             document.body.style.overflow = '';
+            lenis?.start();
         }
         return () => {
             document.body.style.overflow = '';
+            lenis?.start();
         };
-    }, [isMobileMenuOpen]);
+    }, [isMobileMenuOpen, lenis]);
 
     return (
         <>
-            {/* Sentinel div — sits at the very top of the page */}
-            <div ref={sentinelRef} className="absolute top-0 left-0 h-px w-full" />
-
             {/* ========== DESKTOP NAV (md+) ========== */}
             <nav
                 className={[
                     'hidden lg:block',
                     'fixed top-4 inset-x-0 z-50',
                     'transition-all duration-500 ease-in-out',
-                    isScrolled ? 'mx-64' : 'mx-24',
+                    isScrolled ? 'mx-32' : 'mx-8',
                     isMounted ? 'translate-y-0' : '-translate-y-[150%]',
                 ].join(' ')}
             >
@@ -69,12 +74,11 @@ export default function NavBar() {
                     className={[
                         'h-18',
                         'flex items-center justify-between',
-                        'rounded-full p-1.5',
-                        'bg-black/65 backdrop-blur-lg',
+                        'rounded-full p-1',
                         'transition-all duration-500 ease-in-out',
                         isScrolled
-                            ? 'shadow-2xl shadow-black/50 border border-white/20'
-                            : 'shadow-none border border-black',
+                            ? 'shadow-2xl shadow-black/50 border border-white/20 backdrop-blur-lg'
+                            : 'shadow-none border-black/0 bg-black/0 backdrop-blur-none',
                     ].join(' ')}
                 >
                     {/* Left — Logo */}
@@ -84,29 +88,27 @@ export default function NavBar() {
                             alt="BACKBNCH logo"
                             className="h-12 rounded-full w-auto"
                         />
-                        <h1 className="text-2xl pl-2.5 font-sans text-[#d4630b] font-bold tracking-tight">
+                        <h1 className="text-2xl pl-2.5 font-syne text-brand-orange font-bold tracking-tight">
                             BACKBNCH
                         </h1>
                     </Link>
 
                     {/* Right group — Nav links pill + CTA */}
-                    <div className="flex items-center justify-end gap-2 mr-2.5">
+                    <div className="flex items-center justify-end">
                         {/* Nav links pill */}
                         <div
                             className={[
                                 'flex items-center',
                                 'rounded-full p-2',
-                                'bg-white/[0.05]',
-                                'border border-white/[0.08]',
                             ].join(' ')}
                         >
                             {NAV_ITEMS.map((item) => (
                                 <button
                                     key={item.id}
                                     className={[
-                                        'px-5 py-1.5 rounded-full',
+                                        'px-5 py-4 rounded-full',
                                         'bg-white/0 hover:bg-white/10',
-                                        'text-sm font-semibold uppercase tracking-wide',
+                                        'text-sm font-medium uppercase tracking-wide',
                                         'text-white/75 hover:text-white',
                                         'transition-colors duration-200',
                                         'cursor-pointer',
@@ -116,19 +118,6 @@ export default function NavBar() {
                                 </button>
                             ))}
                         </div>
-
-                        {/* CTA button */}
-                        <button
-                            className={[
-                                'rounded-full px-5 py-1.5',
-                                'bg-white/90 hover:bg-white',
-                                'text-slate-900 text-sm font-semibold tracking-wider',
-                                'transition-colors duration-200',
-                                'cursor-pointer shrink-0',
-                            ].join(' ')}
-                        >
-                            Learn More
-                        </button>
                     </div>
                 </div>
             </nav>
@@ -161,7 +150,7 @@ export default function NavBar() {
                             alt="Backbench logo"
                             className="h-10 rounded-full w-auto"
                         />
-                        <span className="text-xl pl-2 font-sans text-[#d4630b] font-bold tracking-tight">
+                        <span className="text-xl pl-2 font-sans text-brand-orange font-semibold tracking-tight">
                             Backbench
                         </span>
                     </Link>
@@ -245,7 +234,7 @@ export default function NavBar() {
                         className={[
                             'w-full py-4 rounded-full',
                             'bg-white/90 hover:bg-white',
-                            'text-slate-900 text-base font-semibold tracking-wider',
+                            'text-slate-900 text-base font-medium tracking-wider',
                             'transition-all duration-300 ease-out',
                             'cursor-pointer',
                             isMobileMenuOpen

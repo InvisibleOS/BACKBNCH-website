@@ -1,10 +1,74 @@
 @import "tailwindcss";
 
 @theme inline {
-  --font-inter: var(--font-inter);
+  --font-sans: var(--font-syne-google);
+  --font-inter: var(--font-inter-google);
+  --font-syne: var(--font-syne-google);
+  --color-brand-orange: #d4620a;
+  --color-signature-orange: #d4620a;
+}
+
+/* Lenis smooth scrolling default styles */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
 }
 
 body {
   background: #0a0a0f;
   color: #ededed;
+}
+
+/* Glow effect for background outlined text */
+.hero-glow-text {
+  font-size: 13vw;
+  font-weight: 900;
+  text-transform: uppercase;
+  color: transparent;
+  -webkit-text-stroke: 1.5px #d4620a;
+  filter: drop-shadow(0 0 20px rgba(212, 98, 10, 0.45));
+  opacity: 0.28;
+  letter-spacing: 0.08em;
+  line-height: 1;
+}
+
+/* Fix Chrome/Safari backdrop-filter rendering over WebGL canvas layers */
+canvas {
+  background-image: linear-gradient(transparent, transparent) !important;
+  transform: translateZ(0);
+}
+
+/* Explicit vendor prefixes and GPU composition triggers for all backdrop blurs */
+.backdrop-blur-md {
+  -webkit-backdrop-filter: blur(12px) !important;
+  backdrop-filter: blur(12px) !important;
+  transform: translateZ(0);
+}
+
+.backdrop-blur-lg {
+  -webkit-backdrop-filter: blur(16px) !important;
+  backdrop-filter: blur(16px) !important;
+  transform: translateZ(0);
+}
+
+.backdrop-blur-xl {
+  -webkit-backdrop-filter: blur(24px) !important;
+  backdrop-filter: blur(24px) !important;
+  transform: translateZ(0);
 }

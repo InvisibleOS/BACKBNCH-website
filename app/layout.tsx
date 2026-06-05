@@ -1,10 +1,17 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Syne } from "next/font/google";
 import "./globals.css";
+import SmoothScroll from "@/components/SmoothScroll";
 
 const inter = Inter({
-  variable: "--font-inter",
+  variable: "--font-inter-google",
   subsets: ["latin"],
+});
+
+const syne = Syne({
+  variable: "--font-syne-google",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
@@ -18,9 +25,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} antialiased`}>
-      <body className="min-h-screen font-[family-name:var(--font-inter)]">
-        {children}
+    <html lang="en" className={`${inter.variable} ${syne.variable} antialiased`}>
+      <body className="min-h-screen font-sans">
+        <SmoothScroll>
+          {children}
+        </SmoothScroll>
       </body>
     </html>
   );
