@@ -58,7 +58,7 @@ export default function Footer() {
                     <div className="max-w-2xl">
                         <p className="mb-4 font-mono text-xs uppercase tracking-[0.2em] text-brand-orange">Got a story worth telling?</p>
                         <h2 className="text-4xl font-bold leading-[0.95] tracking-tighter text-white sm:text-6xl">
-                            Pull up to the <span className="text-brand-orange">backbnch.</span>
+                            Pull up to the <span className="text-brand-orange">BACKBNCH.</span>
                         </h2>
                         <p className="mt-5 max-w-lg text-base font-light leading-relaxed text-white/40">
                             We save the best seat in the house for unfiltered founders, operators, and characters. Pitch yourself — we&rsquo;re always listening.
