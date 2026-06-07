@@ -21,7 +21,7 @@ function SpeakerCard({ speaker, duplicate = false }: { speaker: Speaker; duplica
       />
 
       {/* Bottom quarter: blurred strip so the text stays readable over the photo */}
-      <div className="absolute inset-x-0 bottom-0 flex h-1/4 flex-col justify-center gap-2 bg-black/25 px-5 backdrop-blur-md">
+      <div className="absolute inset-x-0 bottom-0 flex h-1/4 flex-col justify-center gap-2 border-t-4 border-brand-orange bg-black/25 px-5 backdrop-blur-md">
         <div>
           <h4 className="truncate text-base font-bold leading-tight text-white">{speaker.name}</h4>
           <p className="mt-0.5 truncate text-[10px] font-mono uppercase tracking-widest text-white/70">{speaker.title}</p>
