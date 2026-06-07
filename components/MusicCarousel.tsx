@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { motion, AnimatePresence, MotionValue, useTransform, useMotionValue } from 'framer-motion';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import MusicCard from './MusicCard';
-import { EPISODES, ORANGE_GRADIENTS } from '@/data/episodes';
+import { EPISODES, CARD_GRADIENTS } from '@/data/episodes';
 
 const variants = {
   enter: (direction: number) => ({
@@ -79,7 +79,7 @@ export default function MusicCarousel({ arrowOpacity: arrowOpacityProp }: MusicC
           >
             <MusicCard
               {...EPISODES[page]}
-              circleColors={ORANGE_GRADIENTS[page % ORANGE_GRADIENTS.length]}
+              circleColors={CARD_GRADIENTS[page % CARD_GRADIENTS.length]}
               onNext={() => paginate(1)}
               onPrev={() => paginate(-1)}
             />

@@ -1,19 +1,19 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Play, Pause, Volume2, SkipForward, SkipBack } from 'lucide-react';
+import { Play, Volume2, SkipForward, SkipBack } from 'lucide-react';
 
 interface MusicCardProps {
   title: string;
   subtitle: string;
   volume: string;
+  url: string;
   circleColors: string[];
   onNext?: () => void;
   onPrev?: () => void;
 }
 
-export default function MusicCard({ title, subtitle, volume, circleColors, onNext, onPrev }: MusicCardProps) {
-  const [isPlaying, setIsPlaying] = useState(false);
+export default function MusicCard({ title, subtitle, volume, url, circleColors, onNext, onPrev }: MusicCardProps) {
   const [progress, setProgress] = useState(0); // 0 initial value for SSR safety
 
   // Randomize initial progress on client-side mount
@@ -23,17 +23,6 @@ export default function MusicCard({ title, subtitle, volume, circleColors, onNex
       setProgress(randomStart);
     });
   }, []);
-
-  // Simulate progress playback
-  useEffect(() => {
-    let interval: NodeJS.Timeout;
-    if (isPlaying) {
-      interval = setInterval(() => {
-        setProgress((prev) => (prev >= 135 ? 0 : prev + 1));
-      }, 1000);
-    }
-    return () => clearInterval(interval);
-  }, [isPlaying]);
 
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
@@ -73,11 +62,7 @@ export default function MusicCard({ title, subtitle, volume, circleColors, onNex
             boxShadow: `0 0 50px ${centerColor}66`
           }}
         >
-          {/* Pulsing indicator when playing */}
-          {isPlaying && (
-            <span className="absolute inset-0 rounded-full border-4 border-white/20 animate-ping" />
-          )}
-          <Volume2 className={`h-12 w-12 text-white ${isPlaying ? 'animate-bounce' : 'opacity-80'}`} />
+          <Volume2 className="h-12 w-12 text-white opacity-80" />
         </div>
       </div>
 
@@ -121,17 +106,15 @@ export default function MusicCard({ title, subtitle, volume, circleColors, onNex
         </button>
 
         {/* Play/Pause Button */}
-        <button
-          onClick={() => setIsPlaying(!isPlaying)}
+        <a
+          href={url}
+          target="_blank"
+          rel="noopener noreferrer"
           className="p-4.5 rounded-full bg-white text-black hover:bg-neutral-100 transition-all duration-300 cursor-pointer flex items-center justify-center shadow-lg active:scale-95 hover:scale-[1.05]"
-          aria-label={isPlaying ? "Pause stream" : "Play stream"}
+          aria-label="Watch episode"
         >
-          {isPlaying ? (
-            <Pause className="h-5 w-5 fill-black text-black" />
-          ) : (
-            <Play className="h-5 w-5 fill-black text-black translate-x-0.5" />
-          )}
-        </button>
+          <Play className="h-5 w-5 fill-black text-black translate-x-0.5" />
+        </a>
 
         {/* Next Button */}
         <button
