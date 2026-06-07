@@ -49,7 +49,7 @@ export default function EpisodesSection() {
 
                 {/* Title + guest */}
                 <div className="min-w-0 transition-transform duration-300 group-hover:translate-x-1">
-                  <h4 className="truncate text-lg font-bold tracking-tight text-white sm:text-2xl">{ep.title}</h4>
+                  <h4 className="truncate text-lg font-bold tracking-tight text-white/60 transition-colors duration-300 group-hover:text-white sm:text-2xl">{ep.title}</h4>
                   <p className="mt-1 truncate font-mono text-[11px] uppercase tracking-widest text-white/40 sm:text-xs">
                     {ep.subtitle} · {ep.volume}
                   </p>
