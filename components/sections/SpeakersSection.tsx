@@ -21,14 +21,14 @@ function SpeakerCard({ speaker, duplicate = false }: { speaker: Speaker; duplica
       />
 
       {/* Bottom quarter: blurred strip so the text stays readable over the photo */}
-      <div className="absolute inset-x-0 bottom-0 flex h-1/4 flex-col justify-center gap-2 border-t-4 border-brand-orange bg-black/25 px-5 backdrop-blur-md">
+      <div className="absolute inset-x-0 bottom-0 flex h-1/4 flex-col justify-center gap-2 bg-black/25 px-5 backdrop-blur-md">
         <div>
           <h4 className="truncate text-base font-bold leading-tight text-white">{speaker.name}</h4>
           <p className="mt-0.5 truncate text-[10px] font-mono uppercase tracking-widest text-white/70">{speaker.title}</p>
         </div>
         <a
           href="#read"
-          className="inline-flex w-fit items-center gap-1 rounded-full bg-white px-4 py-2 text-xs font-semibold uppercase tracking-widest text-black transition-colors duration-300 hover:bg-brand-orange hover:text-white"
+          className="inline-flex w-fit items-center gap-1 rounded-full bg-brand-orange px-4 py-2 text-xs font-semibold uppercase tracking-widest text-white transition-colors duration-300 hover:bg-white hover:text-brand-orange"
         >
           Read More
           <svg className="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
