@@ -39,9 +39,9 @@ export const EPISODES: Episode[] = [
 ];
 
 export const CARD_GRADIENTS = [
-  ["#d4620a", "#ff7b24"], // orange
-  ["#7a1fa2", "#c057e8"], // purple
-  ["#0a6e5c", "#1fd4ac"], // teal
-  ["#b21d45", "#ff4d7d"], // pink/red
-  ["#1a4fb0", "#4d8cff"]  // blue
+  ["#7a2e05", "#b8500f"], // dark burnt orange
+  ["#c0480a", "#ff7b24"], // classic brand orange
+  ["#d4620a", "#ff9d4d"], // bright tangerine
+  ["#c26a12", "#ffb066"], // warm amber orange
+  ["#d98a4a", "#ffcda0"]  // pastel peach orange
 ];
