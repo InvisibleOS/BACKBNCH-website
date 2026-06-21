@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useLenis } from 'lenis/react';
 import { cn } from '@/lib/cn';
-import { text } from 'framer-motion/client';
+import GlassSurface from './GlassSurface';
 
 const NAV_ITEMS = [
     { id: 'speakers', label: 'Speakers' },
@@ -71,50 +71,51 @@ export default function NavBar() {
                     isMounted ? 'translate-y-0' : '-translate-y-[150%]',
                 )}
             >
-                {/* Outer pill — dark glassmorphism shell */}
-                <div
+                {/* Outer pill — liquid-glass shell (refraction activates with the scroll morph) */}
+                <GlassSurface
+                    enabled={isScrolled}
+                    height={72}
                     className={cn(
-                        'h-18',
-                        'flex items-center justify-between',
-                        'rounded-full p-1',
                         'transition-all duration-500 ease-in-out',
                         isScrolled
-                            ? 'shadow-2xl shadow-black/50 border border-white/20 backdrop-blur-lg'
-                            : 'shadow-none border-black/0 bg-black/0 backdrop-blur-none',
+                            ? 'shadow-2xl shadow-black/50 border border-white/10'
+                            : 'shadow-none border border-transparent',
                     )}
                 >
-                    {/* Left — Logo */}
-                    <Link href="/" onClick={handleLogoClick} className="inline-flex items-center pl-1.5 shrink-0 cursor-pointer hover:opacity-80 transition-opacity">
-                        <img
-                            src="/logo.jpeg"
-                            alt="BACKBNCH logo"
-                            className="h-12 rounded-full w-auto"
-                        />
-                        <h1 className={cn('text-2xl pl-2.5',
-                            'font-syne',
-                            'font-bold tracking-tight',
-                            'transition-colors duration-500 ease-in-out',
-                            isScrolled ? 'text-white/90' : 'text-brand-orange'
+                    <div className="flex items-center justify-between w-full">
+                        {/* Left — Logo */}
+                        <Link href="/" onClick={handleLogoClick} className="inline-flex items-center pl-1.5 shrink-0 cursor-pointer hover:opacity-80 transition-opacity">
+                            <img
+                                src="/logo.jpeg"
+                                alt="BACKBNCH logo"
+                                className="h-12 rounded-full w-auto"
+                            />
+                            <h1 className={cn('text-2xl pl-2.5',
+                                'font-syne',
+                                'font-bold tracking-tight',
+                                'transition-colors duration-500 ease-in-out',
+                                isScrolled ? 'text-white/90' : 'text-brand-orange'
                             )}>
-                            BACKBNCH
-                        </h1>
-                    </Link>
+                                BACKBNCH
+                            </h1>
+                        </Link>
 
-                    {/* Right group — Nav links pill + CTA */}
-                    <div className="flex items-center justify-end">
-                        {/* Nav links pill */}
-                        <div className="flex items-center rounded-full p-2">
-                            {NAV_ITEMS.map((item) => (
-                                <button
-                                    key={item.id}
-                                    className="px-5 py-4 rounded-full bg-white/0 hover:bg-white/10 text-sm font-medium uppercase tracking-wide text-white/75 hover:text-white transition-colors duration-200 cursor-pointer"
-                                >
-                                    {item.label}
-                                </button>
-                            ))}
+                        {/* Right group — Nav links pill */}
+                        <div className="flex items-center justify-end">
+                            {/* Nav links pill */}
+                            <div className="flex items-center rounded-full p-2">
+                                {NAV_ITEMS.map((item) => (
+                                    <button
+                                        key={item.id}
+                                        className="px-5 py-4 rounded-full bg-white/0 hover:bg-white/10 text-sm font-medium uppercase tracking-wide text-white/75 hover:text-white transition-colors duration-200 cursor-pointer"
+                                    >
+                                        {item.label}
+                                    </button>
+                                ))}
+                            </div>
                         </div>
                     </div>
-                </div>
+                </GlassSurface>
             </nav>
 
             {/* ========== MOBILE NAV (<md) ========== */}
@@ -127,62 +128,63 @@ export default function NavBar() {
                     isMounted ? 'translate-y-0' : '-translate-y-[150%]',
                 )}
             >
-                <div
+                <GlassSurface
+                    enabled={isScrolled}
+                    height={56}
                     className={cn(
-                        'flex items-center justify-between',
-                        'rounded-full p-2 pr-3',
-                        'bg-black/65 backdrop-blur-md',
                         'transition-all duration-500 ease-out',
                         isScrolled
-                            ? 'shadow-2xl shadow-black/50 border border-white/20'
-                            : 'shadow-none border border-black',
+                            ? 'shadow-2xl shadow-black/50 border border-white/10'
+                            : 'shadow-none border border-transparent',
                     )}
                 >
-                    {/* Left — Logo */}
-                    <Link href="/" onClick={handleLogoClick} className="inline-flex items-center shrink-0 cursor-pointer hover:opacity-80 transition-opacity">
-                        <img
-                            src="/logo.jpeg"
-                            alt="Backbnch logo"
-                            className="h-10 rounded-full w-auto"
-                        />
-                        <span className="text-xl pl-2 font-sans text-white font-semibold tracking-tight">
-                            Backbnch
-                        </span>
-                    </Link>
+                    <div className="flex items-center justify-between w-full pr-1">
+                        {/* Left — Logo */}
+                        <Link href="/" onClick={handleLogoClick} className="inline-flex items-center shrink-0 cursor-pointer hover:opacity-80 transition-opacity">
+                            <img
+                                src="/logo.jpeg"
+                                alt="Backbnch logo"
+                                className="h-10 rounded-full w-auto"
+                            />
+                            <span className="text-xl pl-2 font-sans text-white font-semibold tracking-tight">
+                                Backbnch
+                            </span>
+                        </Link>
 
-                    {/* Right — Hamburger button */}
-                    <button
-                        onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                        className="p-2 text-white/75 hover:text-white transition-colors cursor-pointer"
-                        aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
-                    >
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="26"
-                            height="26"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="1.5"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            aria-hidden="true"
+                        {/* Right — Hamburger button */}
+                        <button
+                            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                            className="p-2 text-white/75 hover:text-white transition-colors cursor-pointer"
+                            aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
                         >
-                            {isMobileMenuOpen ? (
-                                <>
-                                    <path d="M18 6 6 18" />
-                                    <path d="M6 6l12 12" />
-                                </>
-                            ) : (
-                                <>
-                                    <path d="M4 6h16" />
-                                    <path d="M4 12h16" />
-                                    <path d="M4 18h16" />
-                                </>
-                            )}
-                        </svg>
-                    </button>
-                </div>
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="26"
+                                height="26"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth="1.5"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                aria-hidden="true"
+                            >
+                                {isMobileMenuOpen ? (
+                                    <>
+                                        <path d="M18 6 6 18" />
+                                        <path d="M6 6l12 12" />
+                                    </>
+                                ) : (
+                                    <>
+                                        <path d="M4 6h16" />
+                                        <path d="M4 12h16" />
+                                        <path d="M4 18h16" />
+                                    </>
+                                )}
+                            </svg>
+                        </button>
+                    </div>
+                </GlassSurface>
             </nav>
 
             {/* ========== FULL-PAGE MOBILE MENU OVERLAY ========== */}
