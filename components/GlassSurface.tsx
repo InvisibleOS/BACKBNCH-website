@@ -25,6 +25,22 @@ interface GlassSurfaceProps {
   enabled?: boolean;
 }
 
+/**
+ * Feature-detect support for SVG `url(#…)` backdrop-filters. Returns false for
+ * Safari/Firefox (no support) and during SSR. Module-scoped and pure so it
+ * isn't re-allocated on every render.
+ */
+const supportsSvgBackdropFilter = (): boolean => {
+  if (typeof window === 'undefined' || typeof document === 'undefined') return false;
+  const ua = navigator.userAgent;
+  const isWebkit = /Safari/.test(ua) && !/Chrome/.test(ua);
+  const isFirefox = /Firefox/.test(ua);
+  if (isWebkit || isFirefox) return false;
+  const probe = document.createElement('div');
+  probe.style.backdropFilter = 'url(#glass-support-probe)';
+  return probe.style.backdropFilter !== '';
+};
+
 const GlassSurface = ({
   children,
   width = '100%',
@@ -67,11 +83,11 @@ const GlassSurface = ({
       <svg viewBox="0 0 ${actualWidth} ${actualHeight}" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <linearGradient id="${redGradId}" x1="100%" y1="0%" x2="0%" y2="0%">
-            <stop offset="0%" stop-color="#0000"/>
+            <stop offset="0%" stop-color="#000"/>
             <stop offset="100%" stop-color="red"/>
           </linearGradient>
           <linearGradient id="${blueGradId}" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stop-color="#0000"/>
+            <stop offset="0%" stop-color="#000"/>
             <stop offset="100%" stop-color="blue"/>
           </linearGradient>
         </defs>
@@ -132,19 +148,9 @@ const GlassSurface = ({
   }, [enabled, width, height]);
 
   useEffect(() => {
-    setSvgSupported(supportsSVGFilters());
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- client-only feature detection; must run post-mount to stay SSR-safe
+    setSvgSupported(supportsSvgBackdropFilter());
   }, []);
-
-  const supportsSVGFilters = () => {
-    if (typeof window === 'undefined' || typeof document === 'undefined') return false;
-    const isWebkit = /Safari/.test(navigator.userAgent) && !/Chrome/.test(navigator.userAgent);
-    const isFirefox = /Firefox/.test(navigator.userAgent);
-    if (isWebkit || isFirefox) return false;
-
-    const div = document.createElement('div');
-    div.style.backdropFilter = `url(#${filterId})`;
-    return div.style.backdropFilter !== '';
-  };
 
   const containerStyle = {
     ...style,
@@ -156,7 +162,7 @@ const GlassSurface = ({
       '--glass-saturation': saturation,
       '--filter-id': `url(#${filterId})`
     } : {})
-  } as React.CSSProperties & { [key: string]: any };
+  } as React.CSSProperties;
 
   const activeClass = enabled ? (svgSupported ? 'glass-surface--svg' : 'glass-surface--fallback') : '';
 

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useLenis } from 'lenis/react';
 import { cn } from '@/lib/cn';
@@ -31,7 +32,6 @@ export default function NavBar() {
         const threshold = window.innerWidth >= 1024 ? window.innerHeight * 3 : 10;
         setIsScrolled(scroll > threshold);
     });
-
 
     const handleLogoClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
         if (window.location.pathname === '/') {
@@ -75,6 +75,8 @@ export default function NavBar() {
                 <GlassSurface
                     enabled={isScrolled}
                     height={72}
+                    xChannel="R"
+                    yChannel="B"
                     className={cn(
                         'transition-all duration-500 ease-in-out',
                         isScrolled
@@ -85,10 +87,13 @@ export default function NavBar() {
                     <div className="flex items-center justify-between w-full">
                         {/* Left — Logo */}
                         <Link href="/" onClick={handleLogoClick} className="inline-flex items-center pl-1.5 shrink-0 cursor-pointer hover:opacity-80 transition-opacity">
-                            <img
+                            <Image
                                 src="/logo.jpeg"
                                 alt="BACKBNCH logo"
-                                className="h-12 rounded-full w-auto"
+                                width={48}
+                                height={48}
+                                priority
+                                className="h-12 w-12 rounded-full object-cover"
                             />
                             <h1 className={cn('text-2xl pl-2.5',
                                 'font-syne',
@@ -131,6 +136,8 @@ export default function NavBar() {
                 <GlassSurface
                     enabled={isScrolled}
                     height={56}
+                    xChannel="R"
+                    yChannel="B"
                     className={cn(
                         'transition-all duration-500 ease-out',
                         isScrolled
@@ -141,10 +148,13 @@ export default function NavBar() {
                     <div className="flex items-center justify-between w-full pr-1">
                         {/* Left — Logo */}
                         <Link href="/" onClick={handleLogoClick} className="inline-flex items-center shrink-0 cursor-pointer hover:opacity-80 transition-opacity">
-                            <img
+                            <Image
                                 src="/logo.jpeg"
                                 alt="Backbnch logo"
-                                className="h-10 rounded-full w-auto"
+                                width={40}
+                                height={40}
+                                priority
+                                className="h-10 w-10 rounded-full object-cover"
                             />
                             <span className="text-xl pl-2 font-sans text-white font-semibold tracking-tight">
                                 Backbnch
