@@ -178,13 +178,19 @@ export default function Hero() {
           scroll up normally while the grain gradient stays fixed behind them —
           matching the desktop background behaviour. No horizontal choreography. */}
       <div className="lg:hidden relative z-20 -mt-[100vh]">
+        {/* Each part is sized to 100svh (small viewport height) — the height with
+            the browser toolbar shown — NOT 100vh/min-h-screen. svh is a fixed
+            value that doesn't shift as the toolbar collapses on scroll, so the
+            centered card is framed to the visible viewport from first paint and
+            never gets pushed below the fold or resized. */}
+
         {/* Hero part 1 — only the slider card is visible on first load. */}
-        <section className="flex min-h-screen w-full items-center justify-center px-4 sm:px-6 pt-(--nav-offset) pb-10">
+        <section className="flex min-h-[100svh] w-full items-center justify-center px-4 sm:px-6 pt-(--nav-offset) pb-10">
           <MusicCarousel />
         </section>
 
         {/* Hero part 2 — the important pitch, formatted for phones. */}
-        <section className="flex min-h-screen w-full items-center justify-center px-4 sm:px-6 pt-(--nav-offset) pb-10">
+        <section className="flex min-h-[100svh] w-full items-center justify-center px-4 sm:px-6 pt-(--nav-offset) pb-10">
           <GlassPanel mobile />
         </section>
       </div>

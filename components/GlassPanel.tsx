@@ -26,7 +26,11 @@ export default function GlassPanel({ children, mobile = false }: GlassPanelProps
       className={cn(
         'rounded-[32px] sm:rounded-[48px] p-[1.5px] bg-gradient-to-br from-white/15 via-white/5 to-brand-orange/20 shadow-2xl relative overflow-hidden',
         mobile
-          ? 'w-full max-w-[360px] sm:max-w-[460px] h-[clamp(500px,calc(100dvh-var(--nav-offset)-4.5rem),700px)]'
+          // svh (NOT dvh): the small-viewport height is a FIXED value — the
+          // viewport with the browser toolbar shown — so the card height stays
+          // locked while you scroll. dvh tracks the address bar collapsing/
+          // expanding live, which made the card visibly grow and shrink on phones.
+          ? 'w-full max-w-[360px] sm:max-w-[460px] h-[clamp(500px,calc(100svh-var(--nav-offset)-4.5rem),700px)]'
           : 'w-full h-(--hero-card-h,680px)'
       )}
     >
