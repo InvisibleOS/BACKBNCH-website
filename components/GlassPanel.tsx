@@ -24,16 +24,16 @@ export default function GlassPanel({ children, mobile = false }: GlassPanelProps
   return (
     <div
       className={cn(
-        'rounded-[48px] p-[1.5px] bg-gradient-to-br from-white/15 via-white/5 to-brand-orange/20 shadow-2xl relative overflow-hidden',
+        'rounded-[32px] sm:rounded-[48px] p-[1.5px] bg-gradient-to-br from-white/15 via-white/5 to-brand-orange/20 shadow-2xl relative overflow-hidden',
         mobile
-          ? 'w-full max-w-[460px] h-[clamp(500px,calc(100dvh-var(--nav-offset)-4.5rem),700px)]'
+          ? 'w-full max-w-[360px] sm:max-w-[460px] h-[clamp(500px,calc(100dvh-var(--nav-offset)-4.5rem),700px)]'
           : 'w-full h-(--hero-card-h,680px)'
       )}
     >
       <div
         className={cn(
-          'w-full h-full rounded-[47px] bg-black/50 backdrop-blur-3xl flex flex-col justify-between select-none overflow-hidden text-white text-left relative z-10',
-          mobile ? 'p-7' : 'p-10 lg:p-12'
+          'w-full h-full rounded-[31px] sm:rounded-[47px] bg-black/50 backdrop-blur-3xl flex flex-col justify-between select-none overflow-hidden text-white text-left relative z-10',
+          mobile ? 'p-5 sm:p-7' : 'p-10 lg:p-12'
         )}
       >
         {/* Subtle Glass Light Sweep & Reflections */}

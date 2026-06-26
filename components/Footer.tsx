@@ -57,7 +57,7 @@ export default function Footer() {
                 >
                     <div className="max-w-2xl">
                         <p className="mb-4 font-mono text-xs uppercase tracking-[0.2em] text-brand-orange">Got a story worth telling?</p>
-                        <h2 className="text-4xl font-bold leading-[0.95] tracking-tighter text-white sm:text-6xl">
+                        <h2 className="text-3xl font-bold leading-[0.95] tracking-tighter text-white sm:text-4xl md:text-6xl">
                             Pull up to the <span className="text-brand-orange">BACKBNCH.</span>
                         </h2>
                         <p className="mt-5 max-w-lg text-base font-light leading-relaxed text-white/40">
@@ -76,9 +76,9 @@ export default function Footer() {
                 </div>
 
                 {/* ── Link columns ── */}
-                <div className="grid grid-cols-2 gap-10 py-16 sm:grid-cols-4">
+                <div className="grid grid-cols-3 gap-6 py-16 sm:grid-cols-4 sm:gap-10">
                     {/* Brand blurb */}
-                    <div className="col-span-2 sm:col-span-1">
+                    <div className="col-span-3 sm:col-span-1">
                         <div className="flex items-center gap-2.5">
                             {/* eslint-disable-next-line @next/next/no-img-element */}
                             <img src="/logo.jpeg" alt="" className="h-9 w-9 rounded-full" />
@@ -117,7 +117,7 @@ export default function Footer() {
                 </h2>
 
                 {/* ── Bottom bar ── */}
-                <div className="flex flex-col items-center justify-between gap-4 border-t border-white/10 py-8 sm:flex-row">
+                <div className="flex flex-col items-center justify-between gap-4 border-t border-white/10 py-8 pb-[calc(2rem+env(safe-area-inset-bottom))] sm:flex-row sm:pb-8">
                     <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-white/25">
                         © {new Date().getFullYear()} Backbnch. All rights reserved.
                     </p>

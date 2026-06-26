@@ -43,13 +43,13 @@ export default function EpisodesSection() {
                 <span className="absolute left-0 top-1/2 h-0 w-[2px] -translate-y-1/2 rounded-full bg-brand-orange transition-all duration-300 group-hover:h-3/5" />
 
                 {/* Episode number */}
-                <span className="pl-3 font-mono text-2xl font-bold tabular-nums text-white/20 transition-colors duration-300 group-hover:text-brand-orange sm:pl-6 sm:text-4xl">
+                <span className="pl-3 font-mono text-xl font-bold tabular-nums text-white/20 transition-colors duration-300 group-hover:text-brand-orange sm:pl-6 sm:text-4xl">
                   {String(i + 1).padStart(2, '0')}
                 </span>
 
                 {/* Title + guest */}
                 <div className="min-w-0 transition-transform duration-300 group-hover:translate-x-1">
-                  <h4 className="truncate text-lg font-bold tracking-tight text-white/60 transition-colors duration-300 group-hover:text-white sm:text-2xl">{ep.title}</h4>
+                  <h4 className="line-clamp-2 sm:truncate text-base font-bold tracking-tight text-white/60 transition-colors duration-300 group-hover:text-white sm:text-2xl">{ep.title}</h4>
                   <p className="mt-1 truncate font-mono text-[11px] uppercase tracking-widest text-white/40 sm:text-xs">
                     {ep.subtitle} · {ep.volume}
                   </p>

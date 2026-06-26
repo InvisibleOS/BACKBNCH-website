@@ -37,8 +37,8 @@ export default function MusicCard({ title, subtitle, volume, url, circleColors, 
   const centerColor = circleColors[1] || '#ff7b24';
 
   return (
-    <div className="w-full max-w-[420px] h-(--hero-card-h,680px) rounded-[48px] p-[1.5px] bg-gradient-to-br from-white/15 via-white/5 to-brand-orange/20 shadow-2xl relative overflow-hidden mx-auto select-none">
-      <div className="w-full h-full rounded-[47px] bg-black/50 backdrop-blur-3xl flex flex-col justify-between p-6 select-none overflow-hidden text-white relative z-10">
+    <div className="w-full max-w-[340px] sm:max-w-[420px] h-(--hero-card-h,680px) rounded-[32px] sm:rounded-[48px] p-[1.5px] bg-gradient-to-br from-white/15 via-white/5 to-brand-orange/20 shadow-2xl relative overflow-hidden mx-auto select-none">
+      <div className="w-full h-full rounded-[31px] sm:rounded-[47px] bg-black/50 backdrop-blur-3xl flex flex-col justify-between p-4 sm:p-6 select-none overflow-hidden text-white relative z-10">
         {/* Subtle Glass Light Sweep & Reflections */}
         <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/[0.01] to-white/[0.06] pointer-events-none" />
         <div className="absolute -top-40 -left-40 w-80 h-80 bg-white/5 rounded-full blur-[80px] pointer-events-none" />
@@ -48,7 +48,7 @@ export default function MusicCard({ title, subtitle, volume, url, circleColors, 
         <div className="absolute inset-0 opacity-[0.015] mix-blend-overlay pointer-events-none" style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%' height='100%' filter='url(%23noiseFilter)'/%3E%3C/svg%3E\")" }} />
 
         {/* Vector Circles Artwork Container */}
-        <div className="relative aspect-square w-full rounded-[32px] bg-[#090d16] overflow-hidden flex items-center justify-center mb-2 z-10">
+        <div className="relative aspect-square w-full rounded-[24px] sm:rounded-[32px] bg-[#090d16] overflow-hidden flex items-center justify-center mb-2 z-10">
           <div className="absolute inset-0 bg-gradient-to-tr from-black via-[#060c18] to-[#121c32]" />
 
           {/* Visualizer waves overlay (glowing behind shapes) */}
@@ -58,20 +58,20 @@ export default function MusicCard({ title, subtitle, volume, url, circleColors, 
           {['-translate-x-[40%]', 'translate-x-[40%]'].map((shift) => (
             <div
               key={shift}
-              className={`absolute w-40 h-40 rounded-full opacity-75 ${shift}`}
+              className={`absolute w-28 h-28 sm:w-40 sm:h-40 rounded-full opacity-75 ${shift}`}
               style={{ backgroundColor: sideColor }}
             />
           ))}
 
           {/* Center bright orange circle */}
           <div
-            className="absolute w-44 h-44 rounded-full z-10 flex items-center justify-center"
+            className="absolute w-32 h-32 sm:w-44 sm:h-44 rounded-full z-10 flex items-center justify-center"
             style={{
               backgroundColor: centerColor,
               boxShadow: `0 0 50px ${centerColor}66`
             }}
           >
-            <Volume2 className="h-12 w-12 text-white opacity-80" />
+            <Volume2 className="h-8 w-8 sm:h-12 sm:w-12 text-white opacity-80" />
           </div>
         </div>
 
@@ -104,7 +104,7 @@ export default function MusicCard({ title, subtitle, volume, url, circleColors, 
         </div>
 
         {/* Remodeled Player Controls */}
-        <div className="flex items-center justify-center gap-12 w-full px-1 mb-6 z-10">
+        <div className="flex items-center justify-center gap-8 sm:gap-12 w-full px-1 mb-3 sm:mb-6 z-10">
           {/* Previous Button */}
           <button
             onClick={onPrev}

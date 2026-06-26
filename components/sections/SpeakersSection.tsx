@@ -9,7 +9,7 @@ function SpeakerCard({ speaker, duplicate = false }: { speaker: Speaker; duplica
   return (
     <div
       aria-hidden={duplicate || undefined}
-      className="relative mr-6 h-[440px] w-[300px] shrink-0 overflow-hidden rounded-3xl"
+      className="relative mr-4 sm:mr-6 h-[360px] w-[260px] sm:h-[440px] sm:w-[300px] shrink-0 overflow-hidden rounded-3xl"
     >
       {/* Portrait fills the entire card */}
       {/* eslint-disable-next-line @next/next/no-img-element */}

@@ -49,7 +49,7 @@ const ARROW_FADE_END = 0.4; // arrows fade/slide away before the cards settle
 const HERO_VARS = {
   '--nav-offset': '76px',
   '--hero-gap': '24px',
-  '--hero-card-floor': '600px',
+  '--hero-card-floor': '520px',
   '--hero-card-ceiling': '660px',
   '--hero-card-h':
     'clamp(var(--hero-card-floor), calc(100vh - var(--nav-offset) - 2 * var(--hero-gap)), var(--hero-card-ceiling))',
@@ -179,12 +179,12 @@ export default function Hero() {
           matching the desktop background behaviour. No horizontal choreography. */}
       <div className="lg:hidden relative z-20 -mt-[100vh]">
         {/* Hero part 1 — only the slider card is visible on first load. */}
-        <section className="flex min-h-screen w-full items-center justify-center px-6 pt-(--nav-offset) pb-10">
+        <section className="flex min-h-screen w-full items-center justify-center px-4 sm:px-6 pt-(--nav-offset) pb-10">
           <MusicCarousel />
         </section>
 
         {/* Hero part 2 — the important pitch, formatted for phones. */}
-        <section className="flex min-h-screen w-full items-center justify-center px-6 pt-(--nav-offset) pb-10">
+        <section className="flex min-h-screen w-full items-center justify-center px-4 sm:px-6 pt-(--nav-offset) pb-10">
           <GlassPanel mobile />
         </section>
       </div>
