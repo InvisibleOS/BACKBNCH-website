@@ -1,7 +1,8 @@
 'use client';
 
 import { ReactNode } from 'react';
-import { ArrowRight, Sparkles } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
+import { cn } from '@/lib/cn';
 
 const YoutubeIcon = (props: React.ComponentPropsWithoutRef<'svg'>) => (
   <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
@@ -11,12 +12,30 @@ const YoutubeIcon = (props: React.ComponentPropsWithoutRef<'svg'>) => (
 
 interface GlassPanelProps {
   children?: ReactNode;
+  /**
+   * Phone-format layout. On desktop the panel is a fixed-height column that
+   * slides into the hero; on phones it becomes "hero part 2" — a self-contained
+   * card sized to the viewport with the pitch reflowed for a narrow screen.
+   */
+  mobile?: boolean;
 }
 
-export default function GlassPanel({ children }: GlassPanelProps) {
+export default function GlassPanel({ children, mobile = false }: GlassPanelProps) {
   return (
-    <div className="w-full h-(--hero-card-h,680px) rounded-[48px] p-[1.5px] bg-gradient-to-br from-white/15 via-white/5 to-brand-orange/20 shadow-2xl relative overflow-hidden">
-      <div className="w-full h-full rounded-[47px] bg-black/50 backdrop-blur-3xl flex flex-col justify-between p-10 lg:p-12 select-none overflow-hidden text-white text-left relative z-10">
+    <div
+      className={cn(
+        'rounded-[48px] p-[1.5px] bg-gradient-to-br from-white/15 via-white/5 to-brand-orange/20 shadow-2xl relative overflow-hidden',
+        mobile
+          ? 'w-full max-w-[460px] h-[clamp(500px,calc(100dvh-var(--nav-offset)-4.5rem),700px)]'
+          : 'w-full h-(--hero-card-h,680px)'
+      )}
+    >
+      <div
+        className={cn(
+          'w-full h-full rounded-[47px] bg-black/50 backdrop-blur-3xl flex flex-col justify-between select-none overflow-hidden text-white text-left relative z-10',
+          mobile ? 'p-7' : 'p-10 lg:p-12'
+        )}
+      >
         {/* Subtle Glass Light Sweep & Reflections */}
         <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/[0.01] to-white/[0.06] pointer-events-none" />
         <div className="absolute -top-40 -left-40 w-80 h-80 bg-white/5 rounded-full blur-[80px] pointer-events-none" />
@@ -28,30 +47,41 @@ export default function GlassPanel({ children }: GlassPanelProps) {
         {children || (
           <>
             {/* Top Row: Badge & Accent */}
-            <div className="flex justify-between items-center z-10">
-              <span className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-brand-orange/[0.02] border border-brand-orange/30 text-[9px] font-mono uppercase tracking-[0.2em] text-brand-orange font-semibold">
-                {/* <Sparkles className="h-3 w-3 text-brand-orange animate-pulse" /> */}
-                Podcast & Insights
+            <div className="flex justify-between items-center gap-3 z-10">
+              <span className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-brand-orange/[0.02] border border-brand-orange/30 text-[9px] font-mono uppercase tracking-[0.2em] text-brand-orange font-semibold whitespace-nowrap">
+                Podcast &amp; Insights
               </span>
-              <span className="text-[9px] font-mono text-white/40 uppercase tracking-[0.25em]">
+              <span className="text-[9px] font-mono text-white/40 uppercase tracking-[0.25em] whitespace-nowrap">
                 EPISODES WEEKLY
               </span>
             </div>
 
             {/* Main Content Area */}
-            <div className="flex-1 flex flex-col justify-center my-8 z-10">
-              <h2 className="text-3xl lg:text-5xl font-bold tracking-tight leading-[1.15] mb-5 font-syne text-white/95">
-                Uncensored conversations with <span className="text-brand-orange transition-colors duration-500">builders & operators</span>.
+            <div className={cn('flex-1 flex flex-col justify-center z-10', mobile ? 'my-5' : 'my-8')}>
+              <h2
+                className={cn(
+                  'font-bold tracking-tight leading-[1.15] font-syne text-white/95',
+                  mobile ? 'text-[26px] mb-4' : 'text-3xl lg:text-5xl mb-5'
+                )}
+              >
+                Uncensored conversations with <span className="text-brand-orange transition-colors duration-500">builders &amp; operators</span>.
               </h2>
-              <p className="text-xs lg:text-sm text-white/60 leading-relaxed font-normal mb-8 max-w-lg">
-                We dissect how the fastest-growing discovery channels are shifting from ten blue links to single answers. Tune in to understand how entities, authority, and structured knowledge drive visibility in the age of ChatGPT, Gemini, and Perplexity.
-              </p>
+
+              {mobile ? (
+                <p className="text-[13px] text-white/60 leading-relaxed font-normal mb-6">
+                  We decode how AI search — ChatGPT, Gemini &amp; Perplexity — is replacing ten blue links with single answers, and what earns visibility now.
+                </p>
+              ) : (
+                <p className="text-xs lg:text-sm text-white/60 leading-relaxed font-normal mb-8 max-w-lg">
+                  We dissect how the fastest-growing discovery channels are shifting from ten blue links to single answers. Tune in to understand how entities, authority, and structured knowledge drive visibility in the age of ChatGPT, Gemini, and Perplexity.
+                </p>
+              )}
 
               {/* Elegant divider */}
-              <div className="w-full h-[1px] bg-gradient-to-r from-white/15 via-white/5 to-transparent my-6" />
+              <div className={cn('w-full h-[1px] bg-gradient-to-r from-white/15 via-white/5 to-transparent', mobile ? 'my-4' : 'my-6')} />
 
               {/* Quick Stats Grid */}
-              <div className="grid grid-cols-2 gap-8 max-w-md">
+              <div className={cn('grid grid-cols-2 max-w-md', mobile ? 'gap-6' : 'gap-8')}>
                 <div>
                   <p className="text-2xl font-bold font-syne text-white/90 tracking-tight flex items-baseline gap-1">
                     4.9<span className="text-xs text-brand-orange">★</span>
@@ -66,7 +96,7 @@ export default function GlassPanel({ children }: GlassPanelProps) {
             </div>
 
             {/* Bottom Row: Actions */}
-            <div className="flex flex-col sm:flex-row gap-4 z-10">
+            <div className={cn('flex z-10', mobile ? 'flex-col gap-3' : 'flex-col sm:flex-row gap-4')}>
               <a
                 href="#episodes"
                 className="flex-1 sm:flex-initial px-6 py-3.5 rounded-full bg-white text-black font-semibold text-xs uppercase tracking-wider flex items-center justify-center gap-2 hover:bg-brand-orange hover:text-white transition-all duration-300 shadow-md cursor-pointer group/btn"

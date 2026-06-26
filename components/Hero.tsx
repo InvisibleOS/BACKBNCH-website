@@ -53,6 +53,9 @@ const HERO_VARS = {
   '--hero-card-ceiling': '660px',
   '--hero-card-h':
     'clamp(var(--hero-card-floor), calc(100vh - var(--nav-offset) - 2 * var(--hero-gap)), var(--hero-card-ceiling))',
+  // Desktop-only scroll runway height that drives the sticky pinning. On mobile
+  // the wrapper height is left to flow (the stacked sections define it).
+  '--hero-runway': SCROLL_RUNWAY,
 } as CSSProperties;
 
 const clamp = (value: number, min: number, max: number) =>
@@ -109,10 +112,15 @@ export default function Hero() {
   );
 
   return (
-    // Outer wrapper — creates the scroll runway for the sticky pinning
-    <div ref={wrapperRef} className="relative" style={{ height: SCROLL_RUNWAY }}>
-      {/* Sticky viewport — pins to top of screen for the full scroll runway */}
-      <div className="sticky top-0 h-screen w-full overflow-hidden bg-[#050505]">
+    // Outer wrapper. On desktop (lg+) this is the tall scroll runway that drives
+    // the sticky horizontal-slide choreography. On phones it has NO fixed height:
+    // the two stacked hero sections below define it, and they simply scroll up
+    // over the pinned background. HERO_VARS live here so both layouts inherit them.
+    <div ref={wrapperRef} className="relative lg:h-(--hero-runway)" style={HERO_VARS}>
+      {/* Sticky viewport — holds the background, pinned to the top of the screen
+          on BOTH desktop and mobile. Only the foreground content layout differs:
+          the grain gradient, grid, and watermark stay put while content scrolls. */}
+      <div className="sticky top-0 z-0 h-screen w-full overflow-hidden bg-[#050505]">
         {/* Dynamic Grain Gradient WebGL Background */}
         <div className="absolute inset-0 w-full h-full z-0">
           <GrainGradient
@@ -138,15 +146,12 @@ export default function Hero() {
           </span>
         </div>
 
-        {/* ── Animated content area ── */}
+        {/* ── Desktop animated content (lg+ only) ── */}
         {/* items-center + pt-(--nav-offset): both cards stay vertically centered
             in the band between the navbar's bottom and the viewport's bottom,
             at any window height (the top padding reserves the navbar's space so
             the centering happens below it, not behind it). */}
-        <div
-          className="relative z-20 h-full w-full flex items-center pt-(--nav-offset) px-6 sm:px-12 lg:px-24 lg:gap-16"
-          style={HERO_VARS}
-        >
+        <div className="hidden lg:flex relative z-20 h-full w-full items-center pt-(--nav-offset) px-6 sm:px-12 lg:px-24 lg:gap-16">
           {/* Carousel column (translated from center to left edge).
               Lower layer: paginating cards travel BEHIND the glass panel. */}
           <motion.div
@@ -160,12 +165,28 @@ export default function Hero() {
               Upper layer: sits above the carousel so cards slide under its frosted
               glass rather than over it. */}
           <motion.div
-            className="relative z-30 flex-1 min-w-0 hidden lg:block shrink-0"
+            className="relative z-30 flex-1 min-w-0 shrink-0"
             style={{ x: panelX }}
           >
             <GlassPanel />
           </motion.div>
         </div>
+      </div>
+
+      {/* ── Mobile content (below lg) ── */}
+      {/* Pulled up over the pinned background (-mt-[100vh]) so the two parts
+          scroll up normally while the grain gradient stays fixed behind them —
+          matching the desktop background behaviour. No horizontal choreography. */}
+      <div className="lg:hidden relative z-20 -mt-[100vh]">
+        {/* Hero part 1 — only the slider card is visible on first load. */}
+        <section className="flex min-h-screen w-full items-center justify-center px-6 pt-(--nav-offset) pb-10">
+          <MusicCarousel />
+        </section>
+
+        {/* Hero part 2 — the important pitch, formatted for phones. */}
+        <section className="flex min-h-screen w-full items-center justify-center px-6 pt-(--nav-offset) pb-10">
+          <GlassPanel mobile />
+        </section>
       </div>
     </div>
   );
